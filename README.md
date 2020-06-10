@@ -7,7 +7,8 @@ Este cluster foi criado com base no guia:
 
 ## Pré requisitos:
 
-1. Ter o Virtual Box na última versão.
+1. Ter o Virtual Box na última versão *.
+    * para usuários Ubuntu utilize o Virtual Box 6.0!
 2. Ter o Vagrant na última versão.
 3. Ter o plugin dotenv do Vagrant.  
 
