@@ -1,0 +1,7 @@
+---
+- hosts: all
+  tasks: 
+  - name: Just a simple task
+    user:
+      name: '{{ ansible_user }}'
+      state: present

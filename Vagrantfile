@@ -35,7 +35,18 @@ Vagrant.configure("2") do |config|
                 vm_item_vb.memory = vm_params[:vm_ram]
 
             end
-
         end
+    end
+
+    config.vm.provision "ansible" do |ansible|
+        ansible.compatibility_mode = "2.0"
+        ansible.playbook = "playbooks/setup-tools.yml"
+        ansible.become = true
+        ansible.groups = {
+            "setup_node" => ["k8s-master"]
+        }
+        ansible.extra_vars = {
+            "kubectl_version" => "1.15.3"
+        }
     end
 end

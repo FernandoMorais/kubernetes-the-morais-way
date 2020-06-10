@@ -1,0 +1,9 @@
+---
+- name: Download cfssl tools
+  get_url:
+    url: "{{ cfssl_base_url }}/{{ item }}"
+    dest: "/usr/local/bin/{{ item }}"
+    mode: "0555"
+  with_items:
+    - cfssl
+    - cfssljson
