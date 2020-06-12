@@ -42,3 +42,4 @@ Este cluster foi criado com base no guia:
 - [Vagrant Provision Ansible](https://www.vagrantup.com/docs/provisioning/ansible.html)
 - [Box Centos 8.1](https://app.vagrantup.com/bento/boxes/centos-8.1)
 - [Ansible Galaxy](https://galaxy.ansible.com/)
+- [Jinja Template](https://jinja.palletsprojects.com/en/2.11.x/)
