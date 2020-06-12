@@ -43,3 +43,4 @@ Este cluster foi criado com base no guia:
 - [Box Centos 8.1](https://app.vagrantup.com/bento/boxes/centos-8.1)
 - [Ansible Galaxy](https://galaxy.ansible.com/)
 - [Jinja Template](https://jinja.palletsprojects.com/en/2.11.x/)
+- [Public Key Infrastructure @ Wikipedia](https://en.wikipedia.org/wiki/Public_key_infrastructure)

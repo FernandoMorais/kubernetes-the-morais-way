@@ -1,0 +1,8 @@
+---
+certificates_c: 'BR'
+certificates_l: 'Jundiai'
+certificates_o: 'Kubernetes'
+certificates_ou: 'CA'
+certificates_st: 'Sao Paulo'
+
+certificates_ca_expiry: '8760h'

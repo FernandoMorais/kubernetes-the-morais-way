@@ -49,4 +49,21 @@ Vagrant.configure("2") do |config|
             "kubectl_version" => "1.15.3"
         }
     end
+
+    config.vm.provision "ansible" do |ansible|
+        ansible.compatibility_mode = "2.0"
+        ansible.playbook = "playbooks/setup-certificates.yml"
+        ansible.become = true
+        ansible.groups = {
+            "setup_node" => ["k8s-master"]
+        }
+        ansible.extra_vars = {
+            "certificates_c" => ENV['K8S_CA_C'],
+            "certificates_l" => ENV['K8S_CA_L'],
+            "certificates_o" => ENV['K8S_CA_O'],
+            "certificates_ou" => ENV['K8S_CA_OU'],
+            "certificates_st" => ENV['K8S_CA_ST'],
+            "certificates_ca_expiry" => ENV['K8S_CA_EXPIRY']
+        }
+    end
 end

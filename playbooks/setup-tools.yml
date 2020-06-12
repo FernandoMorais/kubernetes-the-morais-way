@@ -1,4 +1,3 @@
 - hosts: setup_node
   roles:
-    - cfssl
     - kubectl
