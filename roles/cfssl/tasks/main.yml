@@ -1,9 +1,18 @@
 ---
 - name: Download cfssl tools
   get_url:
-    url: "{{ cfssl_base_url }}/{{ item }}"
-    dest: "/usr/local/bin/{{ item }}"
-    mode: "0555"
+    url: '{{ cfssl_base_url }}/{{ item }}'
+    dest: '/usr/local/bin/{{ item }}'
+    mode: 0555
+  with_items:
+    - cfssl
+    - cfssljson
+
+- name: Link cfssl tools to usr bin
+  file:
+    src: '/usr/local/bin/{{ item }}'
+    dest: '/usr/bin/{{ item }}'
+    state: link
   with_items:
     - cfssl
     - cfssljson
