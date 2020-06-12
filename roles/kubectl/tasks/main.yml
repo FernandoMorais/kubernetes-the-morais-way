@@ -1,6 +1,12 @@
 ---
 - name: Download kubectl tools
   get_url:
-    url: "{{ kubectl_url }}"
-    dest: "/usr/local/bin/kubectl"
-    mode: "0555"
+    url: '{{ kubectl_url }}'
+    dest: /usr/local/bin/kubectl
+    mode: 0555
+
+- name: Link kubectl to usr bin
+  file:
+    src: /usr/local/bin/kubectl
+    dest: /usr/bin/kubectl
+    state: link
