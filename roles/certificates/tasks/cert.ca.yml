@@ -1,0 +1,22 @@
+---
+- name: Ensure kubernetes config and cert dirs
+  file:
+    path: '{{ item }}'
+    state: 'directory'
+  with_items:
+    - '{{ certificates_ca_location }}'
+
+- name: Create ca json configuration files for cfssl
+  template:
+    src: '{{ item }}'
+    dest: '{{ certificates_ca_location }}/{{ item }}'
+  with_items:
+    - ca-config.json
+    - ca-csr.json
+  register: ca_cert_info
+
+- name: Generate ca certificates
+  shell: 'cfssl gencert -initca ca-csr.json | cfssljson -bare ca'
+  args:
+    chdir: '{{ certificates_ca_location }}'
+  when: ca_cert_info is changed

@@ -1,0 +1,27 @@
+---
+- name: Ensure kubernetes config and cert dirs
+  file:
+    path: '{{ item }}'
+    state: 'directory'
+  with_items:
+    - '{{ certificates_client_server_admin_client_location }}'
+
+- name: Create admin json configuration files for cfssl
+  template:
+    src: '{{ item }}'
+    dest: '{{ certificates_client_server_admin_client_location }}/{{ item }}'
+  with_items:
+    - admin-csr.json
+  register: admin_cert_info
+
+- name: Generate admin certificates
+  shell: |
+    cfssl gencert \
+      -ca={{ certificates_ca_location }}/ca.pem \
+      -ca-key={{ certificates_ca_location }}/ca-key.pem \
+      -config={{ certificates_ca_location }}/ca-config.json \
+      -profile=kubernetes \
+      admin-csr.json | cfssljson -bare admin
+  args:
+    chdir: '{{ certificates_client_server_admin_client_location }}'
+  when: admin_cert_info is changed

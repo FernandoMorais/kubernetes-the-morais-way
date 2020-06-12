@@ -4,21 +4,8 @@
     path: '{{ item }}'
     state: 'directory'
   with_items:
-    - '/opt/kubernetes/config'
-    - '/opt/kubernetes/config/cert'
-    - '/opt/kubernetes/config/cert/ca'
+    - '{{ kubernetes_config_location }}'
+    - '{{ certificates_location }}'
 
-- name: Create ca json configuration files for cfssl
-  template:
-    src: '{{ item }}'
-    dest: '/opt/kubernetes/config/cert/ca/{{ item }}'
-  with_items:
-    - ca-config.json
-    - ca-csr.json
-  register: ca_cert_info
-
-- name: Generate ca certificates
-  shell: 'cfssl gencert -initca ca-csr.json | cfssljson -bare ca'
-  args:
-    chdir: '/opt/kubernetes/config/cert/ca'
-  when: ca_cert_info is changed
+- import_tasks: cert.ca.yml
+- import_tasks: cert.client_server.yml

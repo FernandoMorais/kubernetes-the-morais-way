@@ -1,0 +1,9 @@
+---
+- name: Ensure kubernetes config and cert dirs
+  file:
+    path: '{{ item }}'
+    state: 'directory'
+  with_items:
+    - '{{ certificates_client_server_location }}'
+
+- import_tasks: cert.client_server.admin_client.yml

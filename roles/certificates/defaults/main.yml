@@ -1,4 +1,8 @@
 ---
+kubernetes_config_location: '/opt/kubernetes/config'
+
+certificates_location: '{{ kubernetes_config_location }}/cert'
+
 certificates_c: 'BR'
 certificates_l: 'Jundiai'
 certificates_o: 'Kubernetes'
@@ -6,3 +10,7 @@ certificates_ou: 'CA'
 certificates_st: 'Sao Paulo'
 
 certificates_ca_expiry: '8760h'
+certificates_ca_location: '{{ certificates_location }}/ca'
+
+certificates_client_server_location: '{{ certificates_location }}/client_server'
+certificates_client_server_admin_client_location: '{{ certificates_client_server_location }}/admin_client'
