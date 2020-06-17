@@ -1,0 +1,27 @@
+---
+- name: Ensure kubernetes config and cert dirs
+  file:
+    path: '{{ item }}'
+    state: 'directory'
+  with_items:
+    - '{{ certificates_client_server_controller_manager_client_location }}'
+
+- name: Create controller manager client json configuration files for cfssl
+  template:
+    src: 'service-csr.json'
+    dest: '{{ certificates_client_server_controller_manager_client_location }}/{{ item }}-csr.json'
+  with_items:
+    - kube-controller-manager
+  register: controller_cert_info
+
+- name: Generate controller manager client certificates
+  shell: |
+    cfssl gencert \
+      -ca={{ certificates_ca_location }}/ca.pem \
+      -ca-key={{ certificates_ca_location }}/ca-key.pem \
+      -config={{ certificates_ca_location }}/ca-config.json \
+      -profile=kubernetes \
+      kube-controller-manager-csr.json | cfssljson -bare kube-controller-manager
+  args:
+    chdir: '{{ certificates_client_server_controller_manager_client_location }}'
+  when: controller_cert_info is changed

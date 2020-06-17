@@ -1,0 +1,27 @@
+---
+- name: Ensure kubernetes config and cert dirs
+  file:
+    path: '{{ item }}'
+    state: 'directory'
+  with_items:
+    - '{{ certificates_client_server_kube_proxy_client_location }}'
+
+- name: Create kube proxy client json configuration files for cfssl
+  template:
+    src: 'service-csr.json'
+    dest: '{{ certificates_client_server_kube_proxy_client_location }}/{{ item }}-csr.json'
+  with_items: 
+    - kube-proxy
+  register: proxy_cert_info
+
+- name: Generate kube proxy client certificates
+  shell: |
+    cfssl gencert \
+      -ca={{ certificates_ca_location }}/ca.pem \
+      -ca-key={{ certificates_ca_location }}/ca-key.pem \
+      -config={{ certificates_ca_location }}/ca-config.json \
+      -profile=kubernetes \
+      kube-proxy-csr.json | cfssljson -bare kube-proxy
+  args:
+    chdir: '{{ certificates_client_server_kube_proxy_client_location }}'
+  when: proxy_cert_info is changed

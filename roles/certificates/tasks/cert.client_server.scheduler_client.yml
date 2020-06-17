@@ -1,0 +1,27 @@
+---
+- name: Ensure kubernetes config and cert dirs
+  file:
+    path: '{{ item }}'
+    state: 'directory'
+  with_items:
+    - '{{ certificates_client_server_scheduler_client_location }}'
+
+- name: Create scheduler client json configuration files for cfssl
+  template:
+    src: 'service-csr.json'
+    dest: '{{ certificates_client_server_scheduler_client_location }}/{{ item }}-csr.json'
+  with_items:
+    - kube-scheduler
+  register: scheduler_cert_info
+
+- name: Generate scheduler client certificates
+  shell: |
+    cfssl gencert \
+      -ca={{ certificates_ca_location }}/ca.pem \
+      -ca-key={{ certificates_ca_location }}/ca-key.pem \
+      -config={{ certificates_ca_location }}/ca-config.json \
+      -profile=kubernetes \
+      kube-scheduler-csr.json | cfssljson -bare kube-scheduler
+  args:
+    chdir: '{{ certificates_client_server_scheduler_client_location }}'
+  when: scheduler_cert_info is changed

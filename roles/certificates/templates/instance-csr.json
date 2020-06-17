@@ -1,0 +1,16 @@
+{
+    "CN": "system:node:{{ item.host }}",
+    "key": {
+        "algo": "rsa",
+        "size": 2048
+    },
+    "names": [
+        {
+            "C": "{{ certificates_c }}",
+            "L": "{{ certificates_l }}",
+            "O": "{{ certificates_o }}",
+            "OU": "{{ certificates_ou }}",
+            "ST": "{{ certificates_st }}"
+        }
+    ]
+}

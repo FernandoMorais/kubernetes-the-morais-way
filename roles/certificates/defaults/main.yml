@@ -1,6 +1,14 @@
 ---
 kubernetes_config_location: '/opt/kubernetes/config'
 
+kubernetes_master_nodes:
+  - host: 'localhost'
+    ip: '127.0.0.1'
+    
+kubernetes_worker_nodes:
+  - host: 'localhost'
+    ip: '127.0.0.1'
+
 certificates_location: '{{ kubernetes_config_location }}/cert'
 
 certificates_c: 'BR'
@@ -14,3 +22,8 @@ certificates_ca_location: '{{ certificates_location }}/ca'
 
 certificates_client_server_location: '{{ certificates_location }}/client_server'
 certificates_client_server_admin_client_location: '{{ certificates_client_server_location }}/admin_client'
+certificates_client_server_kubelet_client_location: '{{ certificates_client_server_location }}/kubelet_client'
+certificates_client_server_controller_manager_client_location: '{{ certificates_client_server_location }}/controller_manager_client'
+certificates_client_server_kube_proxy_client_location: '{{ certificates_client_server_location }}/kube_proxy_client'
+certificates_client_server_scheduler_client_location: '{{ certificates_client_server_location }}/scheduler_client'
+certificates_client_server_kubernetes_api_server_location: '{{ certificates_client_server_location }}/kubernetes_api_server'

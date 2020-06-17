@@ -7,3 +7,8 @@
     - '{{ certificates_client_server_location }}'
 
 - import_tasks: cert.client_server.admin_client.yml
+- import_tasks: cert.client_server.kubelet_client.yml
+- import_tasks: cert.client_server.controller_manager_client.yml
+- import_tasks: cert.client_server.kube_proxy_client.yml
+- import_tasks: cert.client_server.scheduler_client.yml
+- import_tasks: cert.client_server.kubernetes_api_server.yml

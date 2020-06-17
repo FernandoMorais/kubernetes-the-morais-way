@@ -1,0 +1,28 @@
+---
+- name: Ensure kubernetes config and cert dirs
+  file:
+    path: '{{ item }}'
+    state: 'directory'
+  with_items:
+    - '{{ certificates_client_server_kubelet_client_location }}'
+
+- name: Create kubelet client json configuration files for cfssl
+  template:
+    src: 'instance-csr.json'
+    dest: '{{ certificates_client_server_kubelet_client_location }}/{{ item.host }}-csr.json'
+  with_items: '{{ kubernetes_worker_nodes }}'
+  register: instance_cert_info
+
+- name: Generate kubelet client certificates
+  shell: |
+    cfssl gencert \
+      -ca={{ certificates_ca_location }}/ca.pem \
+      -ca-key={{ certificates_ca_location }}/ca-key.pem \
+      -config={{ certificates_ca_location }}/ca-config.json \
+      -hostname={{ item.host }},{{ item.ip }} \
+      -profile=kubernetes \
+      {{ item.host }}-csr.json | cfssljson -bare {{ item.host }}
+  args:
+    chdir: '{{ certificates_client_server_kubelet_client_location }}'
+  with_items: '{{ kubernetes_worker_nodes }}'
+  when: instance_cert_info is changed
