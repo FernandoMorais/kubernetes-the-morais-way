@@ -27,3 +27,4 @@ certificates_client_server_controller_manager_client_location: '{{ certificates_
 certificates_client_server_kube_proxy_client_location: '{{ certificates_client_server_location }}/kube_proxy_client'
 certificates_client_server_scheduler_client_location: '{{ certificates_client_server_location }}/scheduler_client'
 certificates_client_server_kubernetes_api_server_location: '{{ certificates_client_server_location }}/kubernetes_api_server'
+certificates_service_account_key_pair_location: '{{ certificates_location }}/service_account_key_pair'

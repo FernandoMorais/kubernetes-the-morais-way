@@ -9,3 +9,4 @@
 
 - import_tasks: cert.ca.yml
 - import_tasks: cert.client_server.yml
+- import_tasks: cert.service_account_key_pair.yml
