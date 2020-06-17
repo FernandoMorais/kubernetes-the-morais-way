@@ -2,6 +2,7 @@ require 'dotenv/load'
 
 vms = {
     "k8s-master"   => {
+        :role => "master",
         :vm_box => "bento/centos-8.1", 
         :vm_box_version => "202005.21.0", 
         :vm_cpu => ENV['K8S_MASTER_CPU'], 
@@ -9,6 +10,7 @@ vms = {
         :vm_ip => ENV['K8S_MASTER_IP']
     },
     "k8s-worker-1" => {
+        :role => "worker",
         :vm_box => "bento/centos-8.1",
         :vm_box_version => "202005.21.0",
         :vm_cpu => ENV['K8S_WORKER_1_CPU'],
