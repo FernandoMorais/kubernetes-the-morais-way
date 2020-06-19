@@ -8,10 +8,10 @@
 
 - name: Create scheduler client json configuration files for cfssl
   template:
-    src: 'service-csr.json'
-    dest: '{{ certificates_client_server_scheduler_client_location }}/{{ item }}-csr.json'
+    src: '{{ item.src }}'
+    dest: '{{ certificates_client_server_scheduler_client_location }}/{{ item.dest }}'
   with_items:
-    - kube-scheduler
+    - { src: 'csr.json', dest: 'kube-scheduler-csr.json', cn: 'system:kube-scheduler'}
   register: scheduler_cert_info
 
 - name: Generate scheduler client certificates

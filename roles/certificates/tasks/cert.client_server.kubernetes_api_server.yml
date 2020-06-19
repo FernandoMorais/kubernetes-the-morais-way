@@ -8,8 +8,10 @@
 
 - name: Create kubernetes api server json configuration files for cfssl
   template:
-    src: 'kubernetes-csr.json'
-    dest: '{{ certificates_client_server_kubernetes_api_server_location }}/kubernetes-csr.json'
+    src: '{{ item.src }}'
+    dest: '{{ certificates_client_server_kubernetes_api_server_location }}/{{ item.dest }}'
+  with_items:
+    - { src: 'csr.json', dest: 'kubernetes-csr.json', cn: 'kubernetes' }
   register: server_cert_info
 
 - set_fact:

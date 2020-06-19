@@ -8,10 +8,10 @@
 
 - name: Create controller manager client json configuration files for cfssl
   template:
-    src: 'service-csr.json'
-    dest: '{{ certificates_client_server_controller_manager_client_location }}/{{ item }}-csr.json'
+    src: '{{ item.src }}'
+    dest: '{{ certificates_client_server_controller_manager_client_location }}/{{ item.dest }}'
   with_items:
-    - kube-controller-manager
+    - { src: 'csr.json', dest: 'kube-controller-manager-csr.json', cn: 'system:kube-controller-manager'}
   register: controller_cert_info
 
 - name: Generate controller manager client certificates

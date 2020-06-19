@@ -1,5 +1,5 @@
 {
-    "CN": "Kubernetes",
+    "CN": "{{ item.cn }}",
     "key": {
         "algo": "rsa",
         "size": 2048

@@ -8,10 +8,10 @@
 
 - name: Create admin json configuration files for cfssl
   template:
-    src: '{{ item }}'
-    dest: '{{ certificates_client_server_admin_client_location }}/{{ item }}'
+    src: '{{ item.src }}'
+    dest: '{{ certificates_client_server_admin_client_location }}/{{ item.dest }}'
   with_items:
-    - admin-csr.json
+    - { src: 'csr.json', dest: 'admin-csr.json', cn: 'admin'}
   register: admin_cert_info
 
 - name: Generate admin certificates

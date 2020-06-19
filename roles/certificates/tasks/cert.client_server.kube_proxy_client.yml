@@ -8,10 +8,10 @@
 
 - name: Create kube proxy client json configuration files for cfssl
   template:
-    src: 'service-csr.json'
-    dest: '{{ certificates_client_server_kube_proxy_client_location }}/{{ item }}-csr.json'
+    src: '{{ item.src }}'
+    dest: '{{ certificates_client_server_kube_proxy_client_location }}/{{ item.dest }}'
   with_items: 
-    - kube-proxy
+    - { src: 'csr.json', dest: 'kube-proxy-csr.json', cn: 'system:kube-proxy'}
   register: proxy_cert_info
 
 - name: Generate kube proxy client certificates

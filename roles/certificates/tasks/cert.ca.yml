@@ -8,11 +8,11 @@
 
 - name: Create ca json configuration files for cfssl
   template:
-    src: '{{ item }}'
-    dest: '{{ certificates_ca_location }}/{{ item }}'
+    src: '{{ item.src }}'
+    dest: '{{ certificates_ca_location }}/{{ item.dest }}'
   with_items:
-    - ca-config.json
-    - ca-csr.json
+    - { src: 'ca-config.json', dest: 'ca-config.json' }
+    - { src: 'csr.json', dest: 'ca-csr.json', cn: 'Kubernetes' }
   register: ca_cert_info
 
 - name: Generate ca certificates
