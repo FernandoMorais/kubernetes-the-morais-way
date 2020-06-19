@@ -1,0 +1,17 @@
+---
+- name: Ensure kubernetes config and cert dirs
+  file:
+    path: '{{ item }}'
+    state: 'directory'
+  with_items:
+    - '{{ certificates_ca_location }}'
+    - '{{ certificates_client_server_kubelet_client_location }}'
+        
+- name: Distribute master certificates
+  copy: 
+    src: '../../../.generated{{ item }}'
+    dest: '{{ item }}'
+  with_items:
+    - '{{ certificates_ca_location }}/ca.pem'
+    - '{{ certificates_client_server_kubelet_client_location }}/{{ inventory_hostname }}-key.pem'
+    - '{{ certificates_client_server_kubelet_client_location }}/{{ inventory_hostname }}.pem'

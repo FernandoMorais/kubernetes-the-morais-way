@@ -1,0 +1,15 @@
+---
+- name: Get all generated cert files
+  find:
+    paths: '{{ certificates_location }}'
+    recurse: yes
+  register: cert_files
+
+- name: Fetch files from remote
+  fetch:
+    src: '{{ item.path }}'
+    dest: '../.generated/{{ item.path }}'
+    flat: yes
+  with_items: '{{ cert_files.files }}'
+  loop_control:
+    label: "{{ item.path }}"

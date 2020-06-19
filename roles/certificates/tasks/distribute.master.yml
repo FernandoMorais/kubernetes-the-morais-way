@@ -1,0 +1,21 @@
+---
+- name: Ensure kubernetes config and cert dirs
+  file:
+    path: '{{ item }}'
+    state: 'directory'
+  with_items:
+    - '{{ certificates_ca_location }}'
+    - '{{ certificates_client_server_kubernetes_api_server_location }}'
+    - '{{ certificates_service_account_key_pair_location }}'
+    
+- name: Distribute master certificates
+  copy: 
+    src: '../../../.generated{{ item }}'
+    dest: '{{ item }}'
+  with_items:
+    - '{{ certificates_ca_location }}/ca.pem'
+    - '{{ certificates_ca_location }}/ca-key.pem'
+    - '{{ certificates_client_server_kubernetes_api_server_location }}/kubernetes-key.pem'
+    - '{{ certificates_client_server_kubernetes_api_server_location }}/kubernetes.pem'
+    - '{{ certificates_service_account_key_pair_location }}/service-account-key.pem'
+    - '{{ certificates_service_account_key_pair_location }}/service-account.pem'

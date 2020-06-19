@@ -8,5 +8,12 @@
     - '{{ certificates_location }}'
 
 - import_tasks: cert.ca.yml
+  when: inventory_hostname in groups['setup_node']
+
 - import_tasks: cert.client_server.yml
+  when: inventory_hostname in groups['setup_node']
+
 - import_tasks: cert.service_account_key_pair.yml
+  when: inventory_hostname in groups['setup_node']
+
+- import_tasks: distribute.yml
