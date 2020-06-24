@@ -1,0 +1,63 @@
+---
+- name: Ensure kubernetes config and kubeconfig dirs
+  file:
+    path: '{{ item }}'
+    state: 'directory'
+  with_items:
+    - '{{ kubernetes_config_location }}'
+    - '{{ kubeconfig_location }}'
+
+- set_fact:
+    kubernetes_master_ips: '{{ item.ip }}'
+  with_items: '{{ kubernetes_master_nodes }}'
+
+- name: Create kubelet kubernetes configuration file
+  include_tasks: create.kubeconfig.yml
+  vars:
+    task_label: 'kubelet'
+    kubeconfig_file: '{{ item.host }}.kubeconfig'
+    credential_name: 'system:node:{{ item.host }}'
+    client_certificate: '{{ certificates_client_server_kubelet_client_location }}/{{ item.host }}.pem'
+    client_key: '{{ certificates_client_server_kubelet_client_location }}/{{ item.host }}-key.pem'
+  with_items: '{{ kubernetes_worker_nodes }}'
+  when: inventory_hostname in groups['setup_node']  
+
+- name: Create kube-proxy kubernetes configuration file
+  include_tasks: create.kubeconfig.yml
+  vars:
+    task_label: 'kube-proxy'
+    kubeconfig_file: 'kube-proxy.kubeconfig'
+    credential_name: 'system:kube-proxy'
+    client_certificate: '{{ certificates_client_server_kube_proxy_client_location }}/kube-proxy.pem'
+    client_key: '{{ certificates_client_server_kube_proxy_client_location }}/kube-proxy-key.pem'
+  when: inventory_hostname in groups['setup_node']  
+
+- name: Create kube-controller-manager kubernetes configuration file
+  include_tasks: create.kubeconfig.yml
+  vars:
+    task_label: 'kube-controller-manager'
+    kubeconfig_file: 'kube-controller-manager.kubeconfig'
+    credential_name: 'system:kube-controller-manager'
+    client_certificate: '{{ certificates_client_server_controller_manager_client_location }}/kube-controller-manager.pem'
+    client_key: '{{ certificates_client_server_controller_manager_client_location }}/kube-controller-manager-key.pem'
+  when: inventory_hostname in groups['setup_node']  
+
+- name: Create kube-scheduler kubernetes configuration file
+  include_tasks: create.kubeconfig.yml
+  vars:
+    task_label: 'kube-scheduler'
+    kubeconfig_file: 'kube-scheduler.kubeconfig'
+    credential_name: 'system:kube-scheduler'
+    client_certificate: '{{ certificates_client_server_scheduler_client_location }}/kube-scheduler.pem'
+    client_key: '{{ certificates_client_server_scheduler_client_location }}/kube-scheduler-key.pem'
+  when: inventory_hostname in groups['setup_node']  
+
+- name: Create admin kubernetes configuration file
+  include_tasks: create.kubeconfig.yml
+  vars:
+    task_label: 'admin'
+    kubeconfig_file: 'admin.kubeconfig'
+    credential_name: 'admin'
+    client_certificate: '{{ certificates_client_server_admin_client_location }}/admin.pem'
+    client_key: '{{ certificates_client_server_admin_client_location }}/admin .pem'
+  when: inventory_hostname in groups['setup_node']  
