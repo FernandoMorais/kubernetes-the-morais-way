@@ -1,0 +1,17 @@
+---
+- name: Ensure kubernetes config and kubeconfig dirs
+  file:
+    path: '{{ item }}'
+    state: 'directory'
+  with_items:
+    - '{{ kubernetes_config_location }}'
+    - '{{ kubeconfig_location }}'
+    
+- name: Distribute master kubeconfig
+  copy: 
+    src: '../../../.generated{{ item }}'
+    dest: '{{ item }}'
+  with_items:
+    - '{{ kubeconfig_location }}/admin.kubeconfig'
+    - '{{ kubeconfig_location }}/kube-controller-manager.kubeconfig'
+    - '{{ kubeconfig_location }}/kube-scheduler.kubeconfig'

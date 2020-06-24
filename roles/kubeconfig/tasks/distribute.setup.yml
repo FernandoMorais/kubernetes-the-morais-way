@@ -1,0 +1,15 @@
+---
+- name: Get all generated kubeconfig files
+  find:
+    paths: '{{ kubeconfig_location }}'
+    recurse: yes
+  register: kubeconfig_files
+
+- name: Fetch files from remote
+  fetch:
+    src: '{{ item.path }}'
+    dest: '../.generated/{{ item.path }}'
+    flat: yes
+  with_items: '{{ kubeconfig_files.files }}'
+  loop_control:
+    label: "{{ item.path }}"

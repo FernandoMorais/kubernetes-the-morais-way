@@ -1,0 +1,16 @@
+---
+- name: Ensure kubernetes config and kubeconfig dirs
+  file:
+    path: '{{ item }}'
+    state: 'directory'
+  with_items:
+    - '{{ kubernetes_config_location }}'
+    - '{{ kubeconfig_location }}'
+        
+- name: Distribute worker kubeconfig
+  copy: 
+    src: '../../../.generated{{ item }}'
+    dest: '{{ item }}'
+  with_items:
+    - '{{ kubeconfig_location }}/kube-proxy.kubeconfig'
+    - '{{ kubeconfig_location }}/{{ inventory_hostname }}.kubeconfig'
