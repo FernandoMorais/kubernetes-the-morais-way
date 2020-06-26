@@ -1,0 +1,13 @@
+---
+- name: Ensure kubernetes encryption config dirs
+  file:
+    path: '{{ item }}'
+    state: 'directory'
+  with_items:
+    - '{{ kubernetes_config_location }}'
+    - '{{ encryption_location }}'
+
+- import_tasks: config.yml
+  when: inventory_hostname in groups['setup_node']
+
+- import_tasks: distribute.yml

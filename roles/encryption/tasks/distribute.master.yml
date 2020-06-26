@@ -1,0 +1,7 @@
+---
+- name: Distribute encryption configs
+  copy: 
+    src: '../../../.generated{{ item }}'
+    dest: '{{ item }}'
+  with_items:
+    - '{{ encryption_location }}/encryption-config.yaml'

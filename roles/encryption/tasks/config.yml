@@ -1,0 +1,10 @@
+---
+- name: Create a random secret
+  set_fact:
+    random_aescbc_key: "{{ lookup('password', '/dev/null length=32 chars=ascii_letters,digits,hexdigits,punctuation') | b64encode }}"
+
+- name: Create the encryption config file
+  template:
+    src: 'encryption-config.yaml'
+    dest: '{{ encryption_location }}/encryption-config.yaml'
+    force: no
