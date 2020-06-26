@@ -75,3 +75,4 @@ Este cluster foi criado com base no guia:
 - [Ansible Galaxy](https://galaxy.ansible.com/)
 - [Jinja Template](https://jinja.palletsprojects.com/en/2.11.x/)
 - [Public Key Infrastructure @ Wikipedia](https://en.wikipedia.org/wiki/Public_key_infrastructure)
+- [Encrypting Secret Data at Rest](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/)
