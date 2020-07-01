@@ -76,3 +76,5 @@ Este cluster foi criado com base no guia:
 - [Jinja Template](https://jinja.palletsprojects.com/en/2.11.x/)
 - [Public Key Infrastructure @ Wikipedia](https://en.wikipedia.org/wiki/Public_key_infrastructure)
 - [Encrypting Secret Data at Rest](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/)
+- [Etcd](https://etcd.io/)
+- [Raft](https://raft.github.io/)

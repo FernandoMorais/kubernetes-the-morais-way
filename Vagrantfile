@@ -99,4 +99,16 @@ Vagrant.configure("2") do |config|
         }
         ansible.extra_vars = {}
     end
+
+    config.vm.provision "ansible" do |ansible|
+        ansible.compatibility_mode = "2.0"
+        ansible.playbook = "playbooks/setup-etcd.yml"
+        ansible.become = true
+        ansible.groups = {
+            "master_nodes" => vms.select{ |k,v| v[:role] =~ /master/ }.map{ |k,v| k },
+        }
+        ansible.extra_vars = {
+            "kubernetes_master_nodes" => vms.select{ |k,v| v[:role] =~ /master/ }.map{ |k,v| {:host => k, :ip => v[:vm_ip]} }
+        }
+    end
 end

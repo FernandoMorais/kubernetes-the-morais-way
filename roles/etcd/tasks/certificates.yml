@@ -1,0 +1,20 @@
+---
+- name: Ensure etcd config dirs
+  file:
+    path: '{{ item }}'
+    state: 'directory'
+  with_items:
+    - '{{ etcd_location }}'
+    - '{{ etcd_lib_location }}'
+
+- name: Copy etcd to /usr/local/bin/
+  copy:
+    src: '{{ item.src }}'
+    dest: '/etc/etcd/{{ item.file }}'
+    remote_src: yes
+  with_items:
+    - { src: '{{ certificates_ca }}', file: 'ca.pem'}
+    - { src: '{{ certificates_client_server_kubernetes_api_server }}', file: 'kubernetes.pem'}
+    - { src: '{{ certificates_client_server_kubernetes_api_server_key }}', file: 'kubernetes-key.pem'}
+  loop_control:
+    label: "{{ item.file }}"

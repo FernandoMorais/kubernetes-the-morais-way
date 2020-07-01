@@ -1,0 +1,37 @@
+---
+- name: Ensure etcd setup dirs
+  file:
+    path: '{{ item }}'
+    state: 'directory'
+  with_items:
+    - '{{ kubernetes_setup_location }}'
+
+- name: Download etcd
+  get_url:
+    url: '{{ etcd_url }}'
+    dest: '{{ kubernetes_setup_location }}/etcd-{{ etcd_version }}-linux-amd64.tar.gz'
+
+- name: Extract etcd
+  unarchive:
+    src: '{{ kubernetes_setup_location }}/etcd-{{ etcd_version }}-linux-amd64.tar.gz'
+    dest: '{{ kubernetes_setup_location }}'
+    remote_src: yes
+
+- name: Copy etcd to /usr/local/bin/
+  copy:
+    src: '{{ kubernetes_setup_location }}/etcd-{{ etcd_version }}-linux-amd64/{{ item }}'
+    dest: '/usr/local/bin/{{ item }}'
+    remote_src: yes
+    mode: 0555
+  with_items:
+    - etcd
+    - etcdctl
+
+- name: Link etcd to usr bin
+  file:
+    src: /usr/local/bin/{{ item }}
+    dest: /usr/bin/{{ item }}
+    state: link
+  with_items:
+    - etcd
+    - etcdctl
