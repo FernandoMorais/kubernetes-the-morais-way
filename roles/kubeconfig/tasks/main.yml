@@ -8,8 +8,8 @@
     - '{{ kubeconfig_location }}'
 
 - set_fact:
-    kubernetes_master_ips: '{{ item.ip }}'
-  with_items: '{{ kubernetes_master_nodes }}'
+    kubernetes_controller_ips: '{{ item.ip }}'
+  with_items: '{{ kubernetes_controller_nodes }}'
 
 - name: Create kubelet kubernetes configuration file
   include_tasks: create.kubeconfig.yml

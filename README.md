@@ -43,9 +43,9 @@ Este cluster foi criado com base no guia:
 
     |Variável|Padrão|Descrição  
     |-|-|-|  
-    |K8S_MASTER_IP|192.168.50.100|  
-    |K8S_MASTER_CPU|2|  
-    |K8S_MASTER_RAM|2048|  
+    |K8S_CONTROLLER_IP|192.168.50.100|  
+    |K8S_CONTROLLER_CPU|2|  
+    |K8S_CONTROLLER_RAM|2048|  
     |K8S_WORKER_1_IP|192.168.50.101|  
     |K8S_WORKER_1_CPU|2|  
     |K8S_WORKER_1_RAM|2048|  

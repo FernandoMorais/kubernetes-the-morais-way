@@ -2,8 +2,8 @@
 - import_tasks: distribute.setup.yml
   when: inventory_hostname in groups['setup_node']
 
-- import_tasks: distribute.master.yml
-  when: inventory_hostname in groups['master_nodes']
+- import_tasks: distribute.controller.yml
+  when: inventory_hostname in groups['controller_nodes']
   
 - import_tasks: distribute.worker.yml
   when: inventory_hostname in groups['worker_nodes']

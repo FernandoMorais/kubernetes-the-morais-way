@@ -8,7 +8,7 @@
     - '{{ certificates_client_server_kubernetes_api_server_location }}'
     - '{{ certificates_service_account_key_pair_location }}'
     
-- name: Distribute master certificates
+- name: Distribute controller certificates
   copy: 
     src: '../../../.generated{{ item }}'
     dest: '{{ item }}'

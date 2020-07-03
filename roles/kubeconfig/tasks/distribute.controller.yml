@@ -7,7 +7,7 @@
     - '{{ kubernetes_config_location }}'
     - '{{ kubeconfig_location }}'
     
-- name: Distribute master kubeconfig
+- name: Distribute controller kubeconfig
   copy: 
     src: '../../../.generated{{ item }}'
     dest: '{{ item }}'

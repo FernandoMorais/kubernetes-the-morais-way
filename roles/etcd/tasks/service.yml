@@ -2,7 +2,7 @@
 - set_fact:
     query_expression: "[?host=='{{ inventory_hostname }}'].ip"
 - set_fact:
-    etcd_internal_ip: '{{ kubernetes_master_nodes | json_query(query_expression) | first }}'
+    etcd_internal_ip: '{{ kubernetes_controller_nodes | json_query(query_expression) | first }}'
       
 - name: Create etcd service config
   template:

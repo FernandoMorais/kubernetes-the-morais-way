@@ -15,9 +15,9 @@
   register: server_cert_info
 
 - set_fact:
-    kubernetes_master_hosts: "{{ item.host }}"
-    kubernetes_master_ips: "{{ item.ip }}"
-  with_items: '{{ kubernetes_master_nodes }}'
+    kubernetes_controller_hosts: "{{ item.host }}"
+    kubernetes_controller_ips: "{{ item.ip }}"
+  with_items: '{{ kubernetes_controller_nodes }}'
   when: server_cert_info is changed
 
 - name: Generate kubernetes api server certificates
@@ -27,7 +27,7 @@
       -ca-key={{ certificates_ca_location }}/ca-key.pem \
       -config={{ certificates_ca_location }}/ca-config.json \
       -profile=kubernetes \
-      -hostname=10.32.0.1,10.240.0.10,10.240.0.11,10.240.0.12,{{ kubernetes_master_ips }},127.0.0.1,{{ kubernetes_master_hosts }} \
+      -hostname=10.32.0.1,10.240.0.10,10.240.0.11,10.240.0.12,{{ kubernetes_controller_ips }},127.0.0.1,{{ kubernetes_controller_hosts }} \
       kubernetes-csr.json | cfssljson -bare kubernetes
   args:
     chdir: '{{ certificates_client_server_kubernetes_api_server_location }}'

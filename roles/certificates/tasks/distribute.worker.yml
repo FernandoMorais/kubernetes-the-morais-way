@@ -7,7 +7,7 @@
     - '{{ certificates_ca_location }}'
     - '{{ certificates_client_server_kubelet_client_location }}'
         
-- name: Distribute master certificates
+- name: Distribute controller certificates
   copy: 
     src: '../../../.generated{{ item }}'
     dest: '{{ item }}'

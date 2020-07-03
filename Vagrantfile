@@ -1,13 +1,13 @@
 require 'dotenv/load'
 
 vms = {
-    "k8s-master"   => {
-        :role => "master",
+    "k8s-controller"   => {
+        :role => "controller",
         :vm_box => "bento/centos-8.1", 
         :vm_box_version => "202005.21.0", 
-        :vm_cpu => ENV['K8S_MASTER_CPU'], 
-        :vm_ram => ENV['K8S_MASTER_RAM'], 
-        :vm_ip => ENV['K8S_MASTER_IP']
+        :vm_cpu => ENV['K8S_CONTROLLER_CPU'], 
+        :vm_ram => ENV['K8S_CONTROLLER_RAM'], 
+        :vm_ip => ENV['K8S_CONTROLLER_IP']
     },
     "k8s-worker-1" => {
         :role => "worker",
@@ -45,7 +45,7 @@ Vagrant.configure("2") do |config|
         ansible.playbook = "playbooks/setup-tools.yml"
         ansible.become = true
         ansible.groups = {
-            "setup_node" => ["k8s-master"]
+            "setup_node" => ["k8s-controller"]
         }
         ansible.extra_vars = {
             "kubectl_version" => "1.15.3"
@@ -57,12 +57,12 @@ Vagrant.configure("2") do |config|
         ansible.playbook = "playbooks/setup-certificates.yml"
         ansible.become = true
         ansible.groups = {
-            "setup_node" => ["k8s-master"],
-            "master_nodes" => vms.select{ |k,v| v[:role] =~ /master/ }.map{ |k,v| k },
+            "setup_node" => ["k8s-controller"],
+            "controller_nodes" => vms.select{ |k,v| v[:role] =~ /controller/ }.map{ |k,v| k },
             "worker_nodes" => vms.select{ |k,v| v[:role] =~ /worker/ }.map{ |k,v| k },
         }
         ansible.extra_vars = {
-            "kubernetes_master_nodes" => vms.select{ |k,v| v[:role] =~ /master/ }.map{ |k,v| {:host => k, :ip => v[:vm_ip]} },
+            "kubernetes_controller_nodes" => vms.select{ |k,v| v[:role] =~ /controller/ }.map{ |k,v| {:host => k, :ip => v[:vm_ip]} },
             "kubernetes_worker_nodes" => vms.select{ |k,v| v[:role] =~ /worker/ }.map{ |k,v| {:host => k, :ip => v[:vm_ip]} },
             "certificates_c" => ENV['K8S_CA_C'],
             "certificates_l" => ENV['K8S_CA_L'],
@@ -78,13 +78,13 @@ Vagrant.configure("2") do |config|
         ansible.playbook = "playbooks/setup-kubeconfig.yml"
         ansible.become = true
         ansible.groups = {
-            "setup_node" => ["k8s-master"],
-            "master_nodes" => vms.select{ |k,v| v[:role] =~ /master/ }.map{ |k,v| k },
+            "setup_node" => ["k8s-controller"],
+            "controller_nodes" => vms.select{ |k,v| v[:role] =~ /controller/ }.map{ |k,v| k },
             "worker_nodes" => vms.select{ |k,v| v[:role] =~ /worker/ }.map{ |k,v| k },
         }
         ansible.extra_vars = {
             "kubernetes_cluster_name" => ENV['K8S_CLUSTER_NAME'],
-            "kubernetes_master_nodes" => vms.select{ |k,v| v[:role] =~ /master/ }.map{ |k,v| {:host => k, :ip => v[:vm_ip]} },
+            "kubernetes_controller_nodes" => vms.select{ |k,v| v[:role] =~ /controller/ }.map{ |k,v| {:host => k, :ip => v[:vm_ip]} },
             "kubernetes_worker_nodes" => vms.select{ |k,v| v[:role] =~ /worker/ }.map{ |k,v| {:host => k, :ip => v[:vm_ip]} },
         }
     end
@@ -94,8 +94,8 @@ Vagrant.configure("2") do |config|
         ansible.playbook = "playbooks/setup-encryption.yml"
         ansible.become = true
         ansible.groups = {
-            "setup_node" => ["k8s-master"],
-            "master_nodes" => vms.select{ |k,v| v[:role] =~ /master/ }.map{ |k,v| k },
+            "setup_node" => ["k8s-controller"],
+            "controller_nodes" => vms.select{ |k,v| v[:role] =~ /controller/ }.map{ |k,v| k },
         }
         ansible.extra_vars = {}
     end
@@ -105,10 +105,10 @@ Vagrant.configure("2") do |config|
         ansible.playbook = "playbooks/setup-etcd.yml"
         ansible.become = true
         ansible.groups = {
-            "master_nodes" => vms.select{ |k,v| v[:role] =~ /master/ }.map{ |k,v| k },
+            "controller_nodes" => vms.select{ |k,v| v[:role] =~ /controller/ }.map{ |k,v| k },
         }
         ansible.extra_vars = {
-            "kubernetes_master_nodes" => vms.select{ |k,v| v[:role] =~ /master/ }.map{ |k,v| {:host => k, :ip => v[:vm_ip]} }
+            "kubernetes_controller_nodes" => vms.select{ |k,v| v[:role] =~ /controller/ }.map{ |k,v| {:host => k, :ip => v[:vm_ip]} }
         }
     end
 end

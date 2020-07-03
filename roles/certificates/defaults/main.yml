@@ -1,7 +1,7 @@
 ---
 kubernetes_config_location: '/opt/kubernetes/config'
 
-kubernetes_master_nodes:
+kubernetes_controller_nodes:
   - host: 'localhost'
     ip: '127.0.0.1'
     
