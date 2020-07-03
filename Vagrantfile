@@ -42,7 +42,7 @@ Vagrant.configure("2") do |config|
 
     config.vm.provision "ansible" do |ansible|
         ansible.compatibility_mode = "2.0"
-        ansible.playbook = "playbooks/setup-tools.yml"
+        ansible.playbook = "playbooks/step-01-setup-tools.yml"
         ansible.become = true
         ansible.groups = {
             "setup_node" => ["k8s-controller"]
@@ -54,7 +54,7 @@ Vagrant.configure("2") do |config|
 
     config.vm.provision "ansible" do |ansible|
         ansible.compatibility_mode = "2.0"
-        ansible.playbook = "playbooks/setup-certificates.yml"
+        ansible.playbook = "playbooks/step-02-setup-certificates.yml"
         ansible.become = true
         ansible.groups = {
             "setup_node" => ["k8s-controller"],
@@ -75,7 +75,7 @@ Vagrant.configure("2") do |config|
 
     config.vm.provision "ansible" do |ansible|
         ansible.compatibility_mode = "2.0"
-        ansible.playbook = "playbooks/setup-kubeconfig.yml"
+        ansible.playbook = "playbooks/step-03-setup-kubeconfig.yml"
         ansible.become = true
         ansible.groups = {
             "setup_node" => ["k8s-controller"],
@@ -91,7 +91,7 @@ Vagrant.configure("2") do |config|
 
     config.vm.provision "ansible" do |ansible|
         ansible.compatibility_mode = "2.0"
-        ansible.playbook = "playbooks/setup-encryption.yml"
+        ansible.playbook = "playbooks/step-04-setup-encryption.yml"
         ansible.become = true
         ansible.groups = {
             "setup_node" => ["k8s-controller"],
@@ -102,7 +102,7 @@ Vagrant.configure("2") do |config|
 
     config.vm.provision "ansible" do |ansible|
         ansible.compatibility_mode = "2.0"
-        ansible.playbook = "playbooks/setup-etcd.yml"
+        ansible.playbook = "playbooks/step-05-setup-etcd.yml"
         ansible.become = true
         ansible.groups = {
             "controller_nodes" => vms.select{ |k,v| v[:role] =~ /controller/ }.map{ |k,v| k },

@@ -65,6 +65,17 @@ Este cluster foi criado com base no guia:
     vagrant up
     ```
     
+## Os playbooks
+
+|Playbook|Descrição
+|-|-
+|step-00-test|  
+|step-01-setup-tools|  
+|step-02-setup-certificates|  
+|step-03-setup-kubeconfig|  
+|step-04-setup-encryption|  
+|step-05-setup-etcd|  
+
 # Referências
 
 - [Kubernetes The Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way)
