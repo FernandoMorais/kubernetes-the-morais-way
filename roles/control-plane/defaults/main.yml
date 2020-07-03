@@ -1,0 +1,25 @@
+kubernetes_control_plane_config_location: '/etc/kubernetes/config'
+kubernetes_control_plane_lib_location: '/var/lib/kubernetes/'
+
+kubectl_version: '1.15.3'
+kubernetes_control_plane_base_url: 'https://storage.googleapis.com/kubernetes-release/release/v{{ kubectl_version }}/bin/linux/amd64'
+
+kubernetes_config_location: '/opt/kubernetes/config'
+
+certificates_location: '{{ kubernetes_config_location }}/cert'
+
+certificates_ca_location: '{{ certificates_location }}/ca'
+certificates_ca: '{{ certificates_ca_location }}/ca.pem'
+certificates_ca_key: '{{ certificates_ca_location }}/ca-key.pem'
+
+certificates_client_server_location: '{{ certificates_location }}/client_server'
+certificates_client_server_kubernetes_api_server_location: '{{ certificates_client_server_location }}/kubernetes_api_server'
+certificates_client_server_kubernetes_api_server_key: '{{ certificates_client_server_kubernetes_api_server_location }}/kubernetes-key.pem'
+certificates_client_server_kubernetes_api_server: '{{ certificates_client_server_kubernetes_api_server_location }}/kubernetes.pem'
+
+certificates_service_account_key_pair_location: '{{ certificates_location }}/service_account_key_pair'
+certificates_service_account_key_pair_key: '{{ certificates_service_account_key_pair_location }}/service-account-key.pem'
+certificates_service_account_key_pair: '{{ certificates_service_account_key_pair_location }}/service-account.pem'
+
+encryption_location: '{{ kubernetes_config_location }}/encryption'
+encryption_config: '{{ encryption_location }}/encryption-config.yaml'

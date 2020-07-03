@@ -1,0 +1,17 @@
+---
+- name: 'Copy api server config to {{ kubernetes_control_plane_lib_location }}'
+  copy:
+    src: '{{ item.src }}'
+    dest: '{{ kubernetes_control_plane_lib_location }}/{{ item.file }}'
+    remote_src: yes
+  with_items:
+    - { src: '{{ certificates_ca }}', file: 'ca.pem'}
+    - { src: '{{ certificates_ca_key }}', file: 'ca-key.pem' }
+    - { src: '{{ certificates_client_server_kubernetes_api_server }}', file: 'kubernetes.pem' }
+    - { src: '{{ certificates_client_server_kubernetes_api_server_key }}', file: 'kubernetes-key.pem' }
+    - { src: '{{ certificates_service_account_key_pair }}', file: 'service-account.pem' }
+    - { src: '{{ certificates_service_account_key_pair_key }}', file: 'service-account-key.pem' }
+    - { src: '{{ encryption_config }}', file: 'encryption-config.yaml' }
+  loop_control:
+    label: "{{ item.file }}"
+

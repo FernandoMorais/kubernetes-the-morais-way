@@ -111,4 +111,17 @@ Vagrant.configure("2") do |config|
             "kubernetes_controller_nodes" => vms.select{ |k,v| v[:role] =~ /controller/ }.map{ |k,v| {:host => k, :ip => v[:vm_ip]} }
         }
     end
+
+    config.vm.provision "ansible" do |ansible|
+        ansible.compatibility_mode = "2.0"
+        ansible.playbook = "playbooks/step-06-bootstrap-control-plane.yml"
+        ansible.become = true
+        ansible.groups = {
+            "controller_nodes" => vms.select{ |k,v| v[:role] =~ /controller/ }.map{ |k,v| k },
+        }
+        ansible.extra_vars = {
+            "kubectl_version" => "1.15.3",
+            "kubernetes_controller_nodes" => vms.select{ |k,v| v[:role] =~ /controller/ }.map{ |k,v| {:host => k, :ip => v[:vm_ip]} }
+        }
+    end
 end

@@ -1,0 +1,4 @@
+---
+- hosts: controller_nodes
+  roles:
+    - control-plane

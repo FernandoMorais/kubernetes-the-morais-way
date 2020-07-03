@@ -1,0 +1,18 @@
+---
+- set_fact:
+    query_expression: "[?host=='{{ inventory_hostname }}'].ip"
+- set_fact:
+    controller_internal_ip: '{{ kubernetes_controller_nodes | json_query(query_expression) | first }}'
+      
+- name: Create api server service config
+  template:
+    src: 'kube-apiserver.service'
+    dest: /etc/systemd/system/kube-apiserver.service
+
+- name: Start and enable api server service
+  systemd:
+    name: kube-apiserver
+    daemon_reload: yes
+    enabled: yes
+    state: started
+  

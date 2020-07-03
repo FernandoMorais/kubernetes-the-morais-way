@@ -1,0 +1,12 @@
+---
+- name: Ensure control plane dirs
+  file:
+    path: '{{ item }}'
+    state: 'directory'
+  with_items:
+    - '{{ kubernetes_control_plane_config_location }}'
+    - '{{ kubernetes_control_plane_lib_location }}'
+
+- import_tasks: binaries.yml
+- import_tasks: api_server.configure.yml
+- import_tasks: api_server.service.yml
