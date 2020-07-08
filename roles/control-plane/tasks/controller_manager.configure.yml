@@ -1,0 +1,11 @@
+---
+- name: 'Copy controller manager config to {{ kubernetes_control_plane_lib_location }}'
+  copy:
+    src: '{{ item.src }}'
+    dest: '{{ kubernetes_control_plane_lib_location }}/{{ item.file }}'
+    remote_src: yes
+  with_items:
+    - { src: '{{ kubeconfig_controller_manager }}', file: 'kube-controller-manager.kubeconfig'}
+  loop_control:
+    label: "{{ item.file }}"
+  

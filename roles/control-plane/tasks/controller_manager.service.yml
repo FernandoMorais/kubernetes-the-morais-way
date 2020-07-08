@@ -1,0 +1,13 @@
+---
+- name: Create controller manager service config
+  template:
+    src: 'kube-controller-manager.service'
+    dest: /etc/systemd/system/kube-controller-manager.service
+
+- name: Start and enable controller manager service
+  systemd:
+    name: kube-controller-manager
+    daemon_reload: yes
+    enabled: yes
+    state: started
+  

@@ -10,3 +10,5 @@
 - import_tasks: binaries.yml
 - import_tasks: api_server.configure.yml
 - import_tasks: api_server.service.yml
+- import_tasks: controller_manager.configure.yml
+- import_tasks: controller_manager.service.yml

@@ -120,6 +120,7 @@ Vagrant.configure("2") do |config|
             "controller_nodes" => vms.select{ |k,v| v[:role] =~ /controller/ }.map{ |k,v| k },
         }
         ansible.extra_vars = {
+            "kubernetes_cluster_name" => ENV['K8S_CLUSTER_NAME'],
             "kubectl_version" => "1.15.3",
             "kubernetes_controller_nodes" => vms.select{ |k,v| v[:role] =~ /controller/ }.map{ |k,v| {:host => k, :ip => v[:vm_ip]} }
         }

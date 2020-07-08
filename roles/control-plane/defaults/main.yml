@@ -1,5 +1,6 @@
+kubernetes_cluster_name: 'kubernetes-the-morais-way'
 kubernetes_control_plane_config_location: '/etc/kubernetes/config'
-kubernetes_control_plane_lib_location: '/var/lib/kubernetes/'
+kubernetes_control_plane_lib_location: '/var/lib/kubernetes'
 
 kubectl_version: '1.15.3'
 kubernetes_control_plane_base_url: 'https://storage.googleapis.com/kubernetes-release/release/v{{ kubectl_version }}/bin/linux/amd64'
@@ -23,3 +24,6 @@ certificates_service_account_key_pair: '{{ certificates_service_account_key_pair
 
 encryption_location: '{{ kubernetes_config_location }}/encryption'
 encryption_config: '{{ encryption_location }}/encryption-config.yaml'
+
+kubeconfig_location: '{{ kubernetes_config_location }}/kubeconfig'
+kubeconfig_controller_manager: '{{ kubeconfig_location }}/kube-controller-manager.kubeconfig'
