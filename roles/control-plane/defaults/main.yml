@@ -27,3 +27,6 @@ encryption_config: '{{ encryption_location }}/encryption-config.yaml'
 
 kubeconfig_location: '{{ kubernetes_config_location }}/kubeconfig'
 kubeconfig_controller_manager: '{{ kubeconfig_location }}/kube-controller-manager.kubeconfig'
+kubeconfig_scheduler: '{{ kubeconfig_location }}/kube-scheduler.kubeconfig'
+
+kubernetes_control_plane_config_scheduler: '{{ kubernetes_control_plane_config_location }}/kube-scheduler.yaml'

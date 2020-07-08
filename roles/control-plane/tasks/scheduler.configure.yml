@@ -1,0 +1,15 @@
+---
+- name: 'Copy scheduler kubeconfig to {{ kubernetes_control_plane_lib_location }}'
+  copy:
+    src: '{{ item.src }}'
+    dest: '{{ kubernetes_control_plane_lib_location }}/{{ item.file }}'
+    remote_src: yes
+  with_items:
+    - { src: '{{ kubeconfig_scheduler }}', file: 'kube-scheduler.kubeconfig'}
+  loop_control:
+    label: "{{ item.file }}"
+
+- name: Create scheduler config
+  template:
+    src: 'kube-scheduler.yaml'
+    dest: '{{ kubernetes_control_plane_config_scheduler }}'

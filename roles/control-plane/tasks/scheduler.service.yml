@@ -1,0 +1,13 @@
+---
+- name: Create scheduler service config
+  template:
+    src: 'kube-scheduler.service'
+    dest: /etc/systemd/system/kube-scheduler.service
+
+- name: Start and enable scheduler service
+  systemd:
+    name: kube-scheduler
+    daemon_reload: yes
+    enabled: yes
+    state: started
+  
