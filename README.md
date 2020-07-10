@@ -78,6 +78,8 @@ Este cluster foi criado com base no guia:
 
 # Referências
 
+- [Kubernetes Getting Started](https://kubernetes.io/docs/setup/)
+- [Kubernetes Architecture](https://kubernetes.io/pt/docs/concepts/architecture/)
 - [Kubernetes The Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way)
 - [Vagrant](https://www.vagrantup.com/docs)
 - [Vagrant Env](https://github.com/gosuri/vagrant-env)
