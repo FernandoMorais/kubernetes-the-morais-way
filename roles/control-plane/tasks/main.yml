@@ -14,3 +14,13 @@
 - import_tasks: controller_manager.service.yml
 - import_tasks: scheduler.configure.yml
 - import_tasks: scheduler.service.yml
+
+- name: Wait until kubernetes api server is up
+  uri:
+    url: "https://192.168.50.100:6443/healthz"
+    validate_certs: no
+    status_code: 200
+  register: result
+  until: result.status == 200
+  retries: 60
+  delay: 1
