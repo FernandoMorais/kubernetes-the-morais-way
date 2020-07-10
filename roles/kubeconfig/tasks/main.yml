@@ -59,7 +59,7 @@
     kubeconfig_file: 'admin.kubeconfig'
     credential_name: 'admin'
     client_certificate: '{{ certificates_client_server_admin_client_location }}/admin.pem'
-    client_key: '{{ certificates_client_server_admin_client_location }}/admin .pem'
+    client_key: '{{ certificates_client_server_admin_client_location }}/admin-key.pem'
   when: inventory_hostname in groups['setup_node']  
 
 - import_tasks: distribute.yml
