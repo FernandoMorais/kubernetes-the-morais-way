@@ -11,7 +11,7 @@
     src: '{{ item.src }}'
     dest: '{{ certificates_client_server_kube_proxy_client_location }}/{{ item.dest }}'
   with_items: 
-    - { src: 'csr.json', dest: 'kube-proxy-csr.json', cn: 'system:kube-proxy'}
+    - { src: 'csr.json', dest: 'kube-proxy-csr.json', cn: 'system:kube-proxy', o: 'system:node-proxier' }
   register: proxy_cert_info
 
 - name: Generate kube proxy client certificates

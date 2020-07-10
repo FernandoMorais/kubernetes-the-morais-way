@@ -8,7 +8,7 @@
         {
             "C": "{{ certificates_c }}",
             "L": "{{ certificates_l }}",
-            "O": "{{ certificates_o }}",
+            "O": "system:nodes",
             "OU": "{{ certificates_ou }}",
             "ST": "{{ certificates_st }}"
         }

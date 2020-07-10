@@ -11,7 +11,7 @@
     src: '{{ item.src }}'
     dest: '{{ certificates_client_server_scheduler_client_location }}/{{ item.dest }}'
   with_items:
-    - { src: 'csr.json', dest: 'kube-scheduler-csr.json', cn: 'system:kube-scheduler'}
+    - { src: 'csr.json', dest: 'kube-scheduler-csr.json', cn: 'system:kube-scheduler', o: 'system:kube-scheduler' }
   register: scheduler_cert_info
 
 - name: Generate scheduler client certificates

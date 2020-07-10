@@ -11,7 +11,7 @@
     src: '{{ item.src }}'
     dest: '{{ certificates_client_server_admin_client_location }}/{{ item.dest }}'
   with_items:
-    - { src: 'csr.json', dest: 'admin-csr.json', cn: 'admin'}
+    - { src: 'csr.json', dest: 'admin-csr.json', cn: 'admin', o: 'system:masters'}
   register: admin_cert_info
 
 - name: Generate admin certificates

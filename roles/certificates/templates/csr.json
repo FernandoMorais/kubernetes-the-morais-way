@@ -8,7 +8,7 @@
         {
             "C": "{{ certificates_c }}",
             "L": "{{ certificates_l }}",
-            "O": "{{ certificates_o }}",
+            "O": "{{ item.o | default(certificates_o) }}",
             "OU": "{{ certificates_ou }}",
             "ST": "{{ certificates_st }}"
         }
