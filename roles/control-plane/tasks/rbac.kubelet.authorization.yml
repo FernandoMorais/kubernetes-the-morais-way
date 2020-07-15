@@ -1,0 +1,12 @@
+---
+- name: Creates the kube-apiserver-to-kubelet role
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'clusterrole-system-kube-apiserver-to-kubelet.yaml') }}"
+    kubeconfig: '{{ kubeconfig_admin }}'
+
+- name: Creates the kube-apiserver role binding
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'clusterrolebinding-system-kube-apiserver.yaml') }}"
+    kubeconfig: '{{ kubeconfig_admin }}'

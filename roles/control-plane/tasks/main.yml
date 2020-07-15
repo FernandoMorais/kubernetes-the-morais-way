@@ -24,3 +24,5 @@
   until: result.status == 200
   retries: 60
   delay: 1
+
+- import_tasks: rbac.kubelet.authorization.yml
