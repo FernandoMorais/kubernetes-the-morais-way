@@ -92,3 +92,4 @@ Este cluster foi criado com base no guia:
 - [Etcd](https://etcd.io/)
 - [Raft](https://raft.github.io/)
 - [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)
+- [Authorization Overview](https://kubernetes.io/docs/reference/access-authn-authz/authorization/)
