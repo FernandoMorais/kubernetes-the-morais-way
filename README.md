@@ -91,3 +91,4 @@ Este cluster foi criado com base no guia:
 - [Encrypting Secret Data at Rest](https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/)
 - [Etcd](https://etcd.io/)
 - [Raft](https://raft.github.io/)
+- [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)
