@@ -1,0 +1,15 @@
+---
+- name: Asserts python interpreter is defined
+  assert:
+    that: ansible_python_interpreter is defined
+    msg: "You shoud define 'ansible_python_interpreter' variable!"
+
+- name: Gets all installed python libraries
+  raw: '{{ ansible_python_interpreter }} -m pip freeze'
+  changed_when: false
+  register: pip_freeze
+
+- name: Ensure python library is installed
+  raw: '{{ ansible_python_interpreter }} -m pip install --upgrade --user {{ item }}'
+  when: not item in pip_freeze.stdout_lines
+  with_items: '{{ python_libraries }}'

@@ -1,0 +1,4 @@
+---
+ansible_python_interpreter: '/usr/libexec/platform-python'
+python_libraries:
+  - openshift==0.11.2
