@@ -75,6 +75,7 @@ Este cluster foi criado com base no guia:
 |step-03-setup-kubeconfig|  
 |step-04-setup-encryption|  
 |step-05-setup-etcd|  
+|step-06-bootstrap-control-plane|
 
 # Referências
 
