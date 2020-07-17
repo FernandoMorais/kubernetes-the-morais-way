@@ -36,31 +36,31 @@ Este cluster foi criado com base no guia:
 
 ## Parametrização
 
+|Variável|Padrão|Descrição  
+|-|-|-|  
+|K8S_CONTROLLER_IP|192.168.50.100|  
+|K8S_CONTROLLER_CPU|2|  
+|K8S_CONTROLLER_RAM|2048|  
+|K8S_WORKER_1_IP|192.168.50.101|  
+|K8S_WORKER_1_CPU|2|  
+|K8S_WORKER_1_RAM|2048|  
+|K8S_CA_C|BR|(*)  
+|K8S_CA_L|Jundiai|(*)
+|K8S_CA_O|Kubernetes|(*)
+|K8S_CA_OU|CA|(*)
+|K8S_CA_ST|Sao Paulo|(*)
+|K8S_CA_EXPIRY|8760h|(*)
+
+(*) Os parâmetros K8S_CA_\* não podem conter acentos ou caracteres especiais!
+
+## Como subir o cluster
+
 1. Efetue uma cópia do `.env-sample`:  
     ```bash
     cp .env-sample .env
     ```
 
-    |Variável|Padrão|Descrição  
-    |-|-|-|  
-    |K8S_CONTROLLER_IP|192.168.50.100|  
-    |K8S_CONTROLLER_CPU|2|  
-    |K8S_CONTROLLER_RAM|2048|  
-    |K8S_WORKER_1_IP|192.168.50.101|  
-    |K8S_WORKER_1_CPU|2|  
-    |K8S_WORKER_1_RAM|2048|  
-    |K8S_CA_C|BR|(*)  
-    |K8S_CA_L|Jundiai|(*)
-    |K8S_CA_O|Kubernetes|(*)
-    |K8S_CA_OU|CA|(*)
-    |K8S_CA_ST|Sao Paulo|(*)
-    |K8S_CA_EXPIRY|8760h|(*)
-
-    (*) Os parâmetros K8S_CA_\* não podem conter acentos ou caracteres especiais!
-
-## Como subir o cluster
-
-1. Execute o comando:
+2. Execute o comando:
     ```bash
     vagrant up
     ```
