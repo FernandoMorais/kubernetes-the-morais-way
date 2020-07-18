@@ -1,0 +1,6 @@
+---
+- name: Install required so packages
+  package:
+    name: "{{ worker_so_packages }}"
+    state: present
+  

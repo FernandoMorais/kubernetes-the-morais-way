@@ -1,0 +1,9 @@
+---
+- name: Verifies if swap is enabled
+  raw: swapon --show
+  changed_when: false
+  register: swap_info
+
+- name: Disables swap if enabled
+  raw: sudo swapoff -a
+  when: swap_info.stdout != ""

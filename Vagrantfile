@@ -125,4 +125,14 @@ Vagrant.configure("2") do |config|
             "kubernetes_controller_nodes" => vms.select{ |k,v| v[:role] =~ /controller/ }.map{ |k,v| {:host => k, :ip => v[:vm_ip]} }
         }
     end
+
+    config.vm.provision "ansible" do |ansible|
+        ansible.compatibility_mode = "2.0"
+        ansible.playbook = "playbooks/step-07-bootstrap-worker-nodes.yml"
+        ansible.become = true
+        ansible.groups = {
+            "worker_nodes" => vms.select{ |k,v| v[:role] =~ /worker/ }.map{ |k,v| k },
+        }
+        ansible.extra_vars = {}
+    end
 end
