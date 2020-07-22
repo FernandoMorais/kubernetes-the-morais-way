@@ -1,0 +1,6 @@
+---
+- import_tasks: binaries.crio.yml
+- import_tasks: binaries.runc.yml
+- import_tasks: binaries.cni.yml
+- import_tasks: binaries.containerd.yml
+- import_tasks: binaries.kubernetes.yml

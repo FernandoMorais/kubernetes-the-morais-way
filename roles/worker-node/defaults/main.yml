@@ -1,5 +1,31 @@
 ---
+kubernetes_setup_location: '/opt/kubernetes/setup'
+
 worker_so_packages:
   - socat
   - conntrack
   - ipset
+
+worker_installation_directories:
+  - '{{ kubernetes_setup_location }}'
+  - /etc/cni/net.d
+  - /opt/cni/bin
+  - /opt/containerd
+  - /var/lib/kubelet
+  - /var/lib/kube-proxy
+  - /var/lib/kubernetes
+  - /var/run/kubernetes
+
+worker_binaries_versions:
+  crio: '1.18.0'
+  runc: '1.0.0-rc91'
+  cni: '0.8.6'
+  containerd: '1.3.6'
+  kubernetes: '1.18.6'
+
+worker_binaries_sources:
+  crio: https://github.com/kubernetes-sigs/cri-tools/releases/download/v{{ worker_binaries_versions.crio }}/crictl-v{{ worker_binaries_versions.crio }}-linux-amd64.tar.gz
+  runc: https://github.com/opencontainers/runc/releases/download/v{{ worker_binaries_versions.runc }}/runc.amd64
+  cni: https://github.com/containernetworking/plugins/releases/download/v{{ worker_binaries_versions.cni }}/cni-plugins-linux-amd64-v{{ worker_binaries_versions.cni }}.tgz
+  containerd: https://github.com/containerd/containerd/releases/download/v{{ worker_binaries_versions.containerd }}/containerd-{{ worker_binaries_versions.containerd }}-linux-amd64.tar.gz
+  kubernetes: https://storage.googleapis.com/kubernetes-release/release/v{{ worker_binaries_versions.kubernetes }}/bin/linux/amd64

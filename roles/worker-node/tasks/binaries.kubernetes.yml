@@ -1,0 +1,20 @@
+---
+- name: Download control plane binaries - kubernetes
+  get_url:
+    url: '{{ worker_binaries_sources.kubernetes }}/{{ item }}'
+    dest: '/usr/local/bin/{{ item }}'
+    mode: 0755
+  with_items: 
+    - kubectl
+    - kube-proxy
+    - kubelet
+
+- name: Link kubernetes to usr bin
+  file:
+    src: /usr/local/bin/{{ item }}
+    dest: /usr/bin/{{ item }}
+    state: link
+  with_items: 
+    - kubectl
+    - kube-proxy
+    - kubelet

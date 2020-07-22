@@ -1,3 +1,10 @@
 ---
+- name: Ensure worker node dirs
+  file:
+    path: '{{ item }}'
+    state: 'directory'
+  with_items: '{{ worker_installation_directories }}'
+  
 - import_tasks: so.packages.yml
 - import_tasks: disable.swap.yml
+- import_tasks: binaries.yml

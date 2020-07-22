@@ -1,0 +1,14 @@
+---
+- name: Download control plane binaries - runc
+  get_url:
+    url: '{{ item }}'
+    dest: '/usr/local/bin/runc'
+    mode: 0755
+  with_items: 
+    - '{{ worker_binaries_sources.runc }}'
+
+- name: Link runc to usr bin
+  file:
+    src: /usr/local/bin/runc
+    dest: /usr/bin/runc
+    state: link

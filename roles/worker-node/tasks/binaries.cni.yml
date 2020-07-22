@@ -1,0 +1,13 @@
+---
+- name: Download control plane binaries - cni
+  get_url:
+    url: '{{ item }}'
+    dest: '{{ kubernetes_setup_location }}/'
+  with_items: 
+    - '{{ worker_binaries_sources.cni }}'
+
+- name: Extract cni
+  unarchive:
+    src: '{{ kubernetes_setup_location }}/cni-plugins-linux-amd64-v{{ worker_binaries_versions.cni }}.tgz'
+    dest: '/opt/cni/bin/'
+    remote_src: yes
