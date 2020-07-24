@@ -1,5 +1,11 @@
 ---
+kubernetes_config_location: '/opt/kubernetes/config'
 kubernetes_setup_location: '/opt/kubernetes/setup'
+
+kubernetes_control_plane_lib_location: '/var/lib/kubernetes'
+kubernetes_control_plane_lib_location_ca: '{{ kubernetes_control_plane_lib_location }}/ca.pem'
+
+worker_kubelet_lib_location: '/var/lib/kubelet'
 
 worker_so_packages:
   - socat
@@ -11,7 +17,9 @@ worker_installation_directories:
   - /etc/cni/net.d
   - /opt/cni/bin
   - /opt/containerd
-  - /var/lib/kubelet
+  - /etc/containerd/
+  - '{{ worker_kubelet_lib_location }}'
+  - '{{ worker_kubelet_lib_location }}/kubeconfig'
   - /var/lib/kube-proxy
   - /var/lib/kubernetes
   - /var/run/kubernetes
@@ -29,3 +37,13 @@ worker_binaries_sources:
   cni: https://github.com/containernetworking/plugins/releases/download/v{{ worker_binaries_versions.cni }}/cni-plugins-linux-amd64-v{{ worker_binaries_versions.cni }}.tgz
   containerd: https://github.com/containerd/containerd/releases/download/v{{ worker_binaries_versions.containerd }}/containerd-{{ worker_binaries_versions.containerd }}-linux-amd64.tar.gz
   kubernetes: https://storage.googleapis.com/kubernetes-release/release/v{{ worker_binaries_versions.kubernetes }}/bin/linux/amd64
+
+certificates_location: '{{ kubernetes_config_location }}/cert'
+
+certificates_ca_location: '{{ certificates_location }}/ca'
+certificates_ca: '{{ certificates_ca_location }}/ca.pem'
+
+certificates_client_server_location: '{{ certificates_location }}/client_server'
+certificates_client_server_kubelet_client_location: '{{ certificates_client_server_location }}/kubelet_client'
+
+kubeconfig_location: '{{ kubernetes_config_location }}/kubeconfig'

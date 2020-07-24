@@ -1,0 +1,11 @@
+---
+- name: Create the containerd configuration file
+  template:
+    src: containerd/config.toml
+    dest: /etc/containerd/config.toml
+
+- name: Create the containerd.service systemd unit file
+  template:
+    src: containerd/containerd.service
+    dest: /etc/systemd/system/containerd.service
+  

@@ -8,3 +8,4 @@
 - import_tasks: so.packages.yml
 - import_tasks: disable.swap.yml
 - import_tasks: binaries.yml
+- import_tasks: configure.yml

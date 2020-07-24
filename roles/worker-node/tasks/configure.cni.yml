@@ -1,0 +1,15 @@
+---
+- set_fact:
+    query_expression: "[?host=='{{ inventory_hostname }}'].index"
+- set_fact:
+    worker_node_index: '{{ kubernetes_worker_nodes | json_query(query_expression) | first }}'
+
+- name: Create the bridge network configuration file
+  template:
+    src: cni/10-bridge.conf
+    dest: /etc/cni/net.d/10-bridge.conf
+
+- name: Create the loopback network configuration file
+  template:
+    src: cni/99-loopback.conf
+    dest: /etc/cni/net.d/99-loopback.conf

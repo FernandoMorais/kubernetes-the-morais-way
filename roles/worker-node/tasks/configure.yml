@@ -1,0 +1,4 @@
+---
+- import_tasks: configure.cni.yml
+- import_tasks: configure.containerd.yml
+- import_tasks: configure.kubelet.yml

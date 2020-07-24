@@ -1,0 +1,36 @@
+---
+- name: Copy ca certificates
+  copy: 
+    src: '{{ certificates_ca }}'
+    dest: '{{ kubernetes_control_plane_lib_location_ca }}'
+    remote_src: yes
+
+- name: Copy kubelet certificates
+  copy: 
+    src: '{{ certificates_client_server_kubelet_client_location }}/{{ inventory_hostname }}{{ item }}'
+    dest: '{{ worker_kubelet_lib_location }}/{{ inventory_hostname }}{{ item }}'
+    remote_src: yes
+  with_items:
+    - '-key.pem'
+    - '.pem'
+
+- name: Copy kubelet kubeconfig
+  copy: 
+    src: '{{ kubeconfig_location }}/{{ inventory_hostname }}.kubeconfig'
+    dest: '{{ worker_kubelet_lib_location }}/kubeconfig/{{ inventory_hostname }}.kubeconfig'
+    remote_src: yes
+
+- set_fact:
+    query_expression: "[?host=='{{ inventory_hostname }}'].index"
+- set_fact:
+    worker_node_index: '{{ kubernetes_worker_nodes | json_query(query_expression) | first }}'
+  
+- name: Create the kubelet-config.yaml configuration file
+  template:
+    src: kubelet/kubelet-config.yaml
+    dest: '{{ worker_kubelet_lib_location }}/kubelet-config.yaml'
+
+- name: Create the kubelet.service systemd unit file
+  template:
+    src: kubelet/kubelet.service
+    dest: /etc/systemd/system/kubelet.service
