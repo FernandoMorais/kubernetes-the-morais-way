@@ -11,6 +11,7 @@ vms = {
     },
     "k8s-worker-1" => {
         :role => "worker",
+        :index => 0,
         :vm_box => "bento/centos-8.1",
         :vm_box_version => "202005.21.0",
         :vm_cpu => ENV['K8S_WORKER_1_CPU'],
@@ -133,6 +134,8 @@ Vagrant.configure("2") do |config|
         ansible.groups = {
             "worker_nodes" => vms.select{ |k,v| v[:role] =~ /worker/ }.map{ |k,v| k },
         }
-        ansible.extra_vars = {}
+        ansible.extra_vars = {
+            "kubernetes_worker_nodes" => vms.select{ |k,v| v[:role] =~ /worker/ }.map{ |k,v| { :index => v[:index], :host => k, :ip => v[:vm_ip]} },
+        }
     end
 end
