@@ -95,3 +95,4 @@ Este cluster foi criado com base no guia:
 - [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)
 - [Authorization Overview](https://kubernetes.io/docs/reference/access-authn-authz/authorization/)
 - [Compatibility Matrix Cri-o & Kubernetes @Github](https://github.com/cri-o/cri-o#compatibility-matrix-cri-o--kubernetes)
+- [Cri-o](https://github.com/cri-o/cri-o)
