@@ -9,3 +9,9 @@
     src: containerd/containerd.service
     dest: /etc/systemd/system/containerd.service
   
+- name: Start and enable containerd service
+  systemd:
+    name: containerd
+    daemon_reload: yes
+    enabled: yes
+    state: started

@@ -7,7 +7,7 @@ authentication:
   webhook:
     enabled: true
   x509:
-    clientCAFile: "{{ kubernetes_control_plane_lib_location_ca }}"
+    clientCAFile: "{{ kubernetes_worker_lib_location_ca }}"
 authorization:
   mode: Webhook
 clusterDomain: "cluster.local"

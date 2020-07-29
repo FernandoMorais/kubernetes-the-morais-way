@@ -2,7 +2,7 @@
 - name: Copy ca certificates
   copy: 
     src: '{{ certificates_ca }}'
-    dest: '{{ kubernetes_control_plane_lib_location_ca }}'
+    dest: '{{ kubernetes_worker_lib_location_ca }}'
     remote_src: yes
 
 - name: Copy kubelet certificates
@@ -17,7 +17,7 @@
 - name: Copy kubelet kubeconfig
   copy: 
     src: '{{ kubeconfig_location }}/{{ inventory_hostname }}.kubeconfig'
-    dest: '{{ worker_kubelet_lib_location }}/kubeconfig/{{ inventory_hostname }}.kubeconfig'
+    dest: '{{ worker_kubelet_lib_location }}/kubeconfig'
     remote_src: yes
 
 - set_fact:
@@ -34,3 +34,10 @@
   template:
     src: kubelet/kubelet.service
     dest: /etc/systemd/system/kubelet.service
+
+- name: Start and enable kubelet service
+  systemd:
+    name: kubelet
+    daemon_reload: yes
+    enabled: yes
+    state: started

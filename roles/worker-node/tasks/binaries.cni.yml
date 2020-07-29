@@ -1,5 +1,5 @@
 ---
-- name: Download control plane binaries - cni
+- name: Download worker binaries - cni
   get_url:
     url: '{{ item }}'
     dest: '{{ kubernetes_setup_location }}/'

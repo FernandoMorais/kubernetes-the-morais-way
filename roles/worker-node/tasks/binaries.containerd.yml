@@ -1,5 +1,5 @@
 ---
-- name: Download control plane binaries - containerd
+- name: Download worker binaries - containerd
   get_url:
     url: '{{ item }}'
     dest: '{{ kubernetes_setup_location }}/'

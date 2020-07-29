@@ -1,14 +1,14 @@
 ---
-- name: Download control plane binaries - crictl
+- name: Download worker binaries - crictl
   get_url:
     url: '{{ item }}'
     dest: '{{ kubernetes_setup_location }}/'
   with_items: 
-    - '{{ worker_binaries_sources.crio }}'
+    - '{{ worker_binaries_sources.crictl }}'
 
 - name: Extract crictl
   unarchive:
-    src: '{{ kubernetes_setup_location }}/crictl-v{{ worker_binaries_versions.crio }}-linux-amd64.tar.gz'
+    src: '{{ kubernetes_setup_location }}/crictl-v{{ worker_binaries_versions.crictl }}-linux-amd64.tar.gz'
     dest: '/usr/local/bin'
     mode: 0755
     remote_src: yes

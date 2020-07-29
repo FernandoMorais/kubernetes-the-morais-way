@@ -1,0 +1,23 @@
+---
+- name: Copy kube-proxy kubeconfig
+  copy: 
+    src: '{{ kubeconfig_location }}/kube-proxy.kubeconfig'
+    dest: '{{ kubernetes_proxy_lib_location }}/kubeconfig'
+    remote_src: yes
+
+- name: Create the kube-proxy-config.yaml configuration file
+  template:
+    src: kube-proxy/kube-proxy-config.yaml
+    dest: '{{ kubernetes_proxy_lib_location }}/kube-proxy-config.yaml'
+
+- name: Create the kube-proxy.service systemd unit file
+  template:
+    src: kube-proxy/kube-proxy.service
+    dest: /etc/systemd/system/kube-proxy.service
+
+- name: Start and enable kube-proxy service
+  systemd:
+    name: kube-proxy
+    daemon_reload: yes
+    enabled: yes
+    state: started
