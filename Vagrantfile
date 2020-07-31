@@ -48,9 +48,7 @@ Vagrant.configure("2") do |config|
         ansible.groups = {
             "setup_node" => ["k8s-controller"]
         }
-        ansible.extra_vars = {
-            "kubectl_version" => "1.15.3"
-        }
+        ansible.extra_vars = {}
     end
 
     config.vm.provision "ansible" do |ansible|
@@ -122,7 +120,6 @@ Vagrant.configure("2") do |config|
         }
         ansible.extra_vars = {
             "kubernetes_cluster_name" => ENV['K8S_CLUSTER_NAME'],
-            "kubectl_version" => "1.15.3",
             "kubernetes_controller_nodes" => vms.select{ |k,v| v[:role] =~ /controller/ }.map{ |k,v| {:host => k, :ip => v[:vm_ip]} }
         }
     end

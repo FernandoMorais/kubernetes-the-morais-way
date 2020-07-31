@@ -1,9 +1,11 @@
+---
+kubernetes_version: '1.18.6'
+
 kubernetes_cluster_name: 'kubernetes-the-morais-way'
 kubernetes_control_plane_config_location: '/etc/kubernetes/config'
 kubernetes_control_plane_lib_location: '/var/lib/kubernetes'
 
-kubectl_version: '1.15.3'
-kubernetes_control_plane_base_url: 'https://storage.googleapis.com/kubernetes-release/release/v{{ kubectl_version }}/bin/linux/amd64'
+kubernetes_control_plane_base_url: 'https://storage.googleapis.com/kubernetes-release/release/v{{ kubernetes_version }}/bin/linux/amd64'
 
 kubernetes_config_location: '/opt/kubernetes/config'
 

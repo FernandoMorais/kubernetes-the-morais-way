@@ -1,4 +1,6 @@
 ---
+kubernetes_version: '1.18.6'
+
 kubernetes_config_location: '/opt/kubernetes/config'
 kubernetes_setup_location: '/opt/kubernetes/setup'
 
@@ -30,7 +32,7 @@ worker_binaries_versions:
   runc: '1.0.0-rc91'
   cni: '0.8.6'
   containerd: '1.3.6'
-  kubernetes: '1.18.6'
+  kubernetes: '{{ kubernetes_version }}'
 
 worker_binaries_sources:
   crictl: https://github.com/kubernetes-sigs/cri-tools/releases/download/v{{ worker_binaries_versions.crictl }}/crictl-v{{ worker_binaries_versions.crictl }}-linux-amd64.tar.gz
