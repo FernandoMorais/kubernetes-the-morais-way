@@ -1,0 +1,4 @@
+---
+kubernetes_all_nodes:
+  - host: 'localhost'
+    ip: '127.0.0.1'

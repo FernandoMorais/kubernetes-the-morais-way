@@ -1,0 +1,35 @@
+---
+- name: Update hosts file
+  tags: 
+    - vagrant
+  lineinfile:
+    path: /etc/hosts
+    regexp: '{{ item.host }}$'
+    line: '{{ item.ip }} {{ item.host }}'
+    owner: root
+    group: root
+    mode: '0644'
+  when: inventory_hostname != item.host
+  with_items: '{{ kubernetes_all_nodes }}'
+
+- name: Add the br_netfilter module
+  modprobe:
+    name: br_netfilter
+    state: present
+
+- name: Add sysctl kubernetes settings
+  sysctl:
+    name: '{{ item }}'
+    value: '1'
+    sysctl_file: /etc/sysctl.d/kubernetes.conf
+    reload: yes
+  with_items:
+    - net.bridge.bridge-nf-call-iptables
+    - net.bridge.bridge-nf-call-ip6tables
+    - net.ipv4.ip_forward
+
+- name: Set the policy for the FORWARD chain to ACCEPT
+  iptables:
+    chain: FORWARD
+    policy: ACCEPT
+    

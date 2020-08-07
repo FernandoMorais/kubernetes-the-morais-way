@@ -1,4 +1,5 @@
 ---
 - hosts: worker_nodes
   roles:
+    - fix-network
     - worker-node

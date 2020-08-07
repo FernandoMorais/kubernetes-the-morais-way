@@ -1,4 +1,5 @@
 ---
 - hosts: controller_nodes
   roles:
+    - fix-network
     - control-plane
