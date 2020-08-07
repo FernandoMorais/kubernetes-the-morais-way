@@ -1,0 +1,4 @@
+---
+kubernetes_config_location: '/opt/kubernetes/config'
+kubeconfig_location: '{{ kubernetes_config_location }}/kubeconfig'
+kubeconfig_admin: '{{ kubeconfig_location }}/admin.kubeconfig'

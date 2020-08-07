@@ -146,4 +146,18 @@ Vagrant.configure("2") do |config|
         }
         ansible.tags = "vagrant"
     end
+
+    config.vm.provision "ansible" do |ansible|
+        ansible.compatibility_mode = "2.0"
+        ansible.playbook = "playbooks/step-08-setup-dns-cluster-add-on.yml"
+        ansible.become = true
+        ansible.groups = {
+            "setup_node" => ["k8s-controller"],
+            "controller_nodes" => vms.select{ |k,v| v[:role] =~ /controller/ }.map{ |k,v| k },
+            "worker_nodes" => vms.select{ |k,v| v[:role] =~ /worker/ }.map{ |k,v| k },
+        }
+        ansible.extra_vars = {
+            "kubernetes_all_nodes" => vms.map{ |k,v| {:host => k, :ip => v[:vm_ip]} }
+        }
+    end
 end

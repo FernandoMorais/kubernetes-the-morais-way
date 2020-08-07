@@ -1,0 +1,7 @@
+---
+- name: Deploy the coredns cluster add-on
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'coredns-1.7.0.yaml') }}"
+    kubeconfig: '{{ kubeconfig_admin }}'
+    
