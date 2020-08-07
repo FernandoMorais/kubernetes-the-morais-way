@@ -5,5 +5,7 @@
   register: swap_info
 
 - name: Disables swap if enabled
-  raw: sudo swapoff -a
+  raw: |
+    sed -i '/swap/d' /etc/fstab
+    sudo swapoff -a
   when: swap_info.stdout != ""
