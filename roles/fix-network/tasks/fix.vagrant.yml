@@ -1,7 +1,5 @@
 ---
 - name: Update hosts file
-  tags: 
-    - vagrant
   lineinfile:
     path: /etc/hosts
     regexp: '{{ item.host }}$'

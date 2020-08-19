@@ -2,4 +2,5 @@
 - hosts: worker_nodes
   roles:
     - fix-network
-    - worker-node
+    - role: worker-node
+      tags: [ always ]

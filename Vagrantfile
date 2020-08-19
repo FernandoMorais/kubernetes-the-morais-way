@@ -38,8 +38,7 @@ Vagrant.configure("2") do |config|
             vm_item.vm.box         = "#{vm_params[:vm_box]}"
             vm_item.vm.box_version = "#{vm_params[:vm_box_version]}"
 
-            vm_item.vm.network "private_network", ip: "#{vm_params[:vm_ip]}",
-                virtualbox__intnet: true
+            vm_item.vm.network "private_network", ip: "#{vm_params[:vm_ip]}"
 
             vm_item.vm.provider "virtualbox" do |vm_item_vb|
 
@@ -129,7 +128,8 @@ Vagrant.configure("2") do |config|
         }
         ansible.extra_vars = {
             "kubernetes_cluster_name" => ENV['K8S_CLUSTER_NAME'],
-            "kubernetes_controller_nodes" => vms.select{ |k,v| v[:role] =~ /controller/ }.map{ |k,v| {:host => k, :ip => v[:vm_ip]} }
+            "kubernetes_controller_nodes" => vms.select{ |k,v| v[:role] =~ /controller/ }.map{ |k,v| {:host => k, :ip => v[:vm_ip]} },
+            "kubernetes_all_nodes" => vms.map{ |k,v| {:host => k, :ip => v[:vm_ip]} },
         }
         ansible.tags = "vagrant"
     end
@@ -143,6 +143,7 @@ Vagrant.configure("2") do |config|
         }
         ansible.extra_vars = {
             "kubernetes_worker_nodes" => vms.select{ |k,v| v[:role] =~ /worker/ }.map{ |k,v| { :index => v[:index], :host => k, :ip => v[:vm_ip]} },
+            "kubernetes_all_nodes" => vms.map{ |k,v| {:host => k, :ip => v[:vm_ip]} },
         }
         ansible.tags = "vagrant"
     end
@@ -153,11 +154,7 @@ Vagrant.configure("2") do |config|
         ansible.become = true
         ansible.groups = {
             "setup_node" => ["k8s-controller"],
-            "controller_nodes" => vms.select{ |k,v| v[:role] =~ /controller/ }.map{ |k,v| k },
-            "worker_nodes" => vms.select{ |k,v| v[:role] =~ /worker/ }.map{ |k,v| k },
         }
-        ansible.extra_vars = {
-            "kubernetes_all_nodes" => vms.map{ |k,v| {:host => k, :ip => v[:vm_ip]} }
-        }
+        ansible.extra_vars = {}
     end
 end
