@@ -3,4 +3,5 @@
   roles:
     - cfssl
     - kubectl
+    - helm
     - python

@@ -1,0 +1,6 @@
+---
+kubernetes_setup_location: '/opt/kubernetes/setup'
+
+helm_version: v3.3.0
+
+helm_url: https://get.helm.sh/helm-{{ helm_version }}-linux-amd64.tar.gz

@@ -1,0 +1,32 @@
+---
+- name: Ensure helm setup dirs
+  file:
+    path: '{{ item }}'
+    state: 'directory'
+  with_items:
+    - '{{ kubernetes_setup_location }}'
+    - '{{ kubernetes_setup_location }}/helm'
+
+- name: Download helm
+  get_url:
+    url: '{{ helm_url }}'
+    dest: '{{ kubernetes_setup_location }}/helm/helm-{{ helm_version }}-linux-amd64.tar.gz'
+
+- name: Extract helm
+  unarchive:
+    src: '{{ kubernetes_setup_location }}/helm/helm-{{ helm_version }}-linux-amd64.tar.gz'
+    dest: '{{ kubernetes_setup_location }}/helm'
+    remote_src: yes
+
+- name: Copy helm to /usr/local/bin/
+  copy:
+    src: '{{ kubernetes_setup_location }}/helm/linux-amd64/helm'
+    dest: '/usr/local/bin/helm'
+    remote_src: yes
+    mode: 0555
+  
+- name: Link helm to usr bin
+  file:
+    src: /usr/local/bin/helm
+    dest: /usr/bin/helm
+    state: link
