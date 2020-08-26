@@ -157,4 +157,14 @@ Vagrant.configure("2") do |config|
         }
         ansible.extra_vars = {}
     end
+
+    config.vm.provision "ansible" do |ansible|
+        ansible.compatibility_mode = "2.0"
+        ansible.playbook = "playbooks/step-09-bootstrap-netdata.yml"
+        ansible.become = true
+        ansible.groups = {
+            "setup_node" => ["k8s-controller"],
+        }
+        ansible.extra_vars = {}
+    end
 end

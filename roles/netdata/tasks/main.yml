@@ -1,0 +1,36 @@
+---
+- name: Ensure netdata setup dirs
+  file:
+    path: '{{ item }}'
+    state: 'directory'
+  with_items:
+    - '{{ kubernetes_config_location }}'
+    - '{{ kubernetes_config_location }}/netdata'
+
+- name: Ensure netdata namespace
+  k8s:
+    name: netdata
+    api_version: v1
+    kind: Namespace
+    state: present
+    kubeconfig: '{{ kubeconfig_admin }}'
+  
+- name: Send netdata helm chart
+  copy:
+    src: files/netdata-helmchart
+    dest: '{{ kubernetes_config_location }}/netdata'
+
+- name: Send netdata helm chart
+  template:
+    src: templates/values.yaml
+    dest: '{{ kubernetes_config_location }}/netdata/values.yaml'
+  
+- name: Gets installed netdata release
+  raw: 'helm get manifest netdata --namespace netdata'
+  changed_when: false
+  ignore_errors: yes
+  register: netdata_info
+
+- name: Run helm install for netdata helm chart
+  raw: 'helm install netdata {{ kubernetes_config_location }}/netdata/netdata-helmchart --values {{ kubernetes_config_location }}/netdata/values.yaml --namespace netdata'
+  when: netdata_info.rc == 1
