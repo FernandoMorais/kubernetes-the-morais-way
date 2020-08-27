@@ -17,7 +17,7 @@
 
 - name: Wait until kubernetes api server is up
   uri:
-    url: "https://192.168.50.100:6443/healthz"
+    url: 'https://{{kubernetes_controller_nodes[0]['ip']}}:6443/healthz'
     validate_certs: no
     status_code: 200
   register: result
