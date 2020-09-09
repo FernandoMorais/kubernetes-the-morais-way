@@ -1,0 +1,4 @@
+---
+- hosts: setup_node
+  roles:
+    - ingress

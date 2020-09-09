@@ -158,9 +158,25 @@ Vagrant.configure("2") do |config|
         ansible.extra_vars = {}
     end
 
+    ingress_ip = vms.select{ |k,v| v[:role] =~ /worker/ }.map{ |k,v| v[:vm_ip] }[0]
+
     config.vm.provision "ansible" do |ansible|
         ansible.compatibility_mode = "2.0"
-        ansible.playbook = "playbooks/step-09-bootstrap-netdata.yml"
+        ansible.playbook = "playbooks/step-09-bootstrap-ingress.yml"
+        ansible.become = true
+        ansible.groups = {
+            "setup_node" => ["k8s-controller"],
+        }
+        ansible.extra_vars = {
+            "ingress_traefik_externalIPs" => vms.select{ |k,v| v[:role] =~ /worker/ }.map{ |k,v| v[:vm_ip] },
+            "ingress_traefik_host" => "traefik.#{ingress_ip}.xip.io",
+        }
+        ansible.tags = "traefik"
+    end
+
+    config.vm.provision "ansible" do |ansible|
+        ansible.compatibility_mode = "2.0"
+        ansible.playbook = "playbooks/step-10-bootstrap-netdata.yml"
         ansible.become = true
         ansible.groups = {
             "setup_node" => ["k8s-controller"],
