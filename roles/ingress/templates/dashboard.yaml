@@ -8,7 +8,7 @@ spec:
   entryPoints:
     - web
   routes:
-    - match: Host(`{{ ingress_traefik_host }}`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))
+    - match: Host(`{{ ingress_traefik_host }}`) && (PathPrefix(`/`) || PathPrefix(`/dashboard`) || PathPrefix(`/api`))
       kind: Rule
       services:
         - name: api@internal
