@@ -1,0 +1,48 @@
+---
+- name: Ensure netdata setup dirs
+  file:
+    path: '{{ item }}'
+    state: 'directory'
+  with_items:
+    - '{{ kubernetes_config_location }}'
+    - '{{ kubernetes_config_location }}/traefik'
+
+- name: Ensure Traefik namespace
+  k8s:
+    name: '{{ ingress_traefik_namespace }}'
+    api_version: v1
+    kind: Namespace
+    state: present
+    kubeconfig: '{{ kubeconfig_admin }}'
+
+- name: Gets added helm repo
+  raw: 'helm repo list | grep traefik'
+  changed_when: false
+  ignore_errors: yes
+  register: repo_info
+
+- name: Run helm repo add
+  raw: 'helm repo add traefik {{ ingress_traefik_helm_repo }}'
+  when: repo_info.rc == 1
+
+- name: Send traefik helm chart configuration
+  template:
+    src: templates/values.yaml
+    dest: '{{ kubernetes_config_location }}/traefik/values.yaml'
+
+- name: Gets installed traefik release
+  raw: 'helm get manifest traefik --namespace {{ ingress_traefik_namespace }}'
+  changed_when: false
+  ignore_errors: yes
+  register: traefik_info
+
+- name: Run helm install for netdata helm chart
+  raw: 'helm install traefik traefik/traefik --values {{ kubernetes_config_location }}/traefik/values.yaml --namespace {{ ingress_traefik_namespace }}'
+  when: traefik_info.rc == 1
+
+- name: Deploy the trafeik dashboard
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'dashboard.yaml') }}"
+    kubeconfig: '{{ kubeconfig_admin }}'
+    

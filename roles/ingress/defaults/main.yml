@@ -1,0 +1,10 @@
+---
+kubernetes_config_location: '/opt/kubernetes/config'
+kubeconfig_location: '{{ kubernetes_config_location }}/kubeconfig'
+kubeconfig_admin: '{{ kubeconfig_location }}/admin.kubeconfig'
+
+ingress_traefik_helm_repo: https://containous.github.io/traefik-helm-chart
+ingress_traefik_namespace: traefik-v2
+ingress_traefik_externalIPs: []
+ingress_traefik_expose_9000: false
+ingress_traefik_host: traefik.127.0.0.1.xip.io
