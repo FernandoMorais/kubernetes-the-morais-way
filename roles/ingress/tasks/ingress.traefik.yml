@@ -1,5 +1,5 @@
 ---
-- name: Ensure netdata setup dirs
+- name: Ensure traefik setup dirs
   file:
     path: '{{ item }}'
     state: 'directory'
@@ -36,7 +36,7 @@
   ignore_errors: yes
   register: traefik_info
 
-- name: Run helm install for netdata helm chart
+- name: Run helm install for traefik helm chart
   raw: 'helm install traefik traefik/traefik --values {{ kubernetes_config_location }}/traefik/values.yaml --namespace {{ ingress_traefik_namespace }}'
   when: traefik_info.rc == 1
 
@@ -45,4 +45,9 @@
     state: present
     definition: "{{ lookup('template', 'dashboard.yaml') }}"
     kubeconfig: '{{ kubeconfig_admin }}'
-    
+
+- name: Create the demo app ingress for traefik
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'demo-ingress-route.yaml') }}"
+    kubeconfig: '{{ kubeconfig_admin }}'

@@ -1,4 +1,12 @@
 ---
+- name: Create the demo app
+  tags: [ always ]
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'demo-app.yaml') }}"
+    kubeconfig: '{{ kubeconfig_admin }}'
+
 - import_tasks: ingress.traefik.yml
   tags: 
     - traefik
+
