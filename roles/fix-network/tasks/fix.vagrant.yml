@@ -31,3 +31,21 @@
     chain: FORWARD
     policy: ACCEPT
     
+- name: Gathering configured static routes
+  raw: "ip route |grep 10.200.{{ item.index }}.0"
+  when: inventory_hostname != item.host
+  with_items: "{{ kubernetes_worker_nodes }}"
+  register: route_info
+  changed_when: false
+  ignore_errors: yes
+  loop_control:
+    label: "{{ item.host }}"
+
+- name: Adding static routes
+  raw: "ip route add 10.200.{{ item.item.index }}.0/24 via {{ item.item.ip }} dev eth1"
+  when: 
+    - inventory_hostname != item.item.host
+    - item.rc == 1
+  with_items: "{{ route_info.results }}"
+  loop_control:
+    label: "{{ item.item.host }}"

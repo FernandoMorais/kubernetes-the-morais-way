@@ -136,6 +136,7 @@ Vagrant.configure("2") do |config|
         ansible.extra_vars = {
             "kubernetes_cluster_name" => ENV['K8S_CLUSTER_NAME'],
             "kubernetes_controller_nodes" => vms.select{ |k,v| v[:role] =~ /controller/ }.map{ |k,v| {:host => k, :ip => v[:vm_ip]} },
+            "kubernetes_worker_nodes" => vms.select{ |k,v| v[:role] =~ /worker/ }.map{ |k,v| { :index => v[:index], :host => k, :ip => v[:vm_ip]} },
             "kubernetes_all_nodes" => vms.map{ |k,v| {:host => k, :ip => v[:vm_ip]} },
         }
         ansible.tags = "vagrant"
