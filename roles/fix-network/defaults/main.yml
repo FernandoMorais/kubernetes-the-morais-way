@@ -2,3 +2,8 @@
 kubernetes_all_nodes:
   - host: 'localhost'
     ip: '127.0.0.1'
+
+kubernetes_worker_nodes:
+  - index: 0
+    host: 'localhost'
+    ip: '127.0.0.1'
