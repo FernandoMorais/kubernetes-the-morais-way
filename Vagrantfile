@@ -73,11 +73,11 @@ Vagrant.configure("2") do |config|
         ansible.groups = {
             "setup_node" => ["k8s-controller"],
             "controller_nodes" => vms.select{ |k,v| v[:role] =~ /controller/ }.map{ |k,v| k },
-            "worker_nodes" => vms.select{ |k,v| v[:role] =~ /worker/ && to_boolean(v[:enabled])  }.map{ |k,v| k },
+            "worker_nodes" => vms.select{ |k,v| v[:role] =~ /worker/ && to_boolean(v[:enabled]) }.map{ |k,v| k },
         }
         ansible.extra_vars = {
             "kubernetes_controller_nodes" => vms.select{ |k,v| v[:role] =~ /controller/ }.map{ |k,v| {:host => k, :ip => v[:vm_ip]} },
-            "kubernetes_worker_nodes" => vms.select{ |k,v| v[:role] =~ /worker/ && to_boolean(v[:enabled])  }.map{ |k,v| {:host => k, :ip => v[:vm_ip]} },
+            "kubernetes_worker_nodes" => vms.select{ |k,v| v[:role] =~ /worker/ && to_boolean(v[:enabled]) }.map{ |k,v| {:host => k, :ip => v[:vm_ip]} },
             "certificates_c" => ENV['K8S_CA_C'],
             "certificates_l" => ENV['K8S_CA_L'],
             "certificates_o" => ENV['K8S_CA_O'],
@@ -99,7 +99,7 @@ Vagrant.configure("2") do |config|
         ansible.extra_vars = {
             "kubernetes_cluster_name" => ENV['K8S_CLUSTER_NAME'],
             "kubernetes_controller_nodes" => vms.select{ |k,v| v[:role] =~ /controller/ }.map{ |k,v| {:host => k, :ip => v[:vm_ip]} },
-            "kubernetes_worker_nodes" => vms.select{ |k,v| v[:role] =~ /worker/ && to_boolean(v[:enabled])  }.map{ |k,v| {:host => k, :ip => v[:vm_ip]} },
+            "kubernetes_worker_nodes" => vms.select{ |k,v| v[:role] =~ /worker/ && to_boolean(v[:enabled]) }.map{ |k,v| {:host => k, :ip => v[:vm_ip]} },
         }
     end
 
@@ -136,7 +136,7 @@ Vagrant.configure("2") do |config|
         ansible.extra_vars = {
             "kubernetes_cluster_name" => ENV['K8S_CLUSTER_NAME'],
             "kubernetes_controller_nodes" => vms.select{ |k,v| v[:role] =~ /controller/ }.map{ |k,v| {:host => k, :ip => v[:vm_ip]} },
-            "kubernetes_worker_nodes" => vms.select{ |k,v| v[:role] =~ /worker/ }.map{ |k,v| { :index => v[:index], :host => k, :ip => v[:vm_ip]} },
+            "kubernetes_worker_nodes" => vms.select{ |k,v| v[:role] =~ /worker/ && to_boolean(v[:enabled]) }.map{ |k,v| { :index => v[:index], :host => k, :ip => v[:vm_ip]} },
             "kubernetes_all_nodes" => vms.map{ |k,v| {:host => k, :ip => v[:vm_ip]} },
         }
         ansible.tags = "vagrant"
@@ -147,10 +147,10 @@ Vagrant.configure("2") do |config|
         ansible.playbook = "playbooks/step-07-bootstrap-worker-nodes.yml"
         ansible.become = true
         ansible.groups = {
-            "worker_nodes" => vms.select{ |k,v| v[:role] =~ /worker/ && to_boolean(v[:enabled])  }.map{ |k,v| k },
+            "worker_nodes" => vms.select{ |k,v| v[:role] =~ /worker/ && to_boolean(v[:enabled]) }.map{ |k,v| k },
         }
         ansible.extra_vars = {
-            "kubernetes_worker_nodes" => vms.select{ |k,v| v[:role] =~ /worker/ && to_boolean(v[:enabled])  }.map{ |k,v| { :index => v[:index], :host => k, :ip => v[:vm_ip]} },
+            "kubernetes_worker_nodes" => vms.select{ |k,v| v[:role] =~ /worker/ && to_boolean(v[:enabled]) }.map{ |k,v| { :index => v[:index], :host => k, :ip => v[:vm_ip]} },
             "kubernetes_all_nodes" => vms.map{ |k,v| {:host => k, :ip => v[:vm_ip]} },
         }
         ansible.tags = "vagrant"
@@ -166,7 +166,7 @@ Vagrant.configure("2") do |config|
         ansible.extra_vars = {}
     end
 
-    ingress_ip = vms.select{ |k,v| v[:role] =~ /worker/ && to_boolean(v[:enabled])  }.map{ |k,v| v[:vm_ip] }[0]
+    ingress_ip = vms.select{ |k,v| v[:role] =~ /worker/ && to_boolean(v[:enabled]) }.map{ |k,v| v[:vm_ip] }[0]
 
     config.vm.provision "ansible" do |ansible|
         ansible.compatibility_mode = "2.0"
@@ -176,7 +176,7 @@ Vagrant.configure("2") do |config|
             "setup_node" => ["k8s-controller"],
         }
         ansible.extra_vars = {
-            "ingress_traefik_externalIPs" => vms.select{ |k,v| v[:role] =~ /worker/ && to_boolean(v[:enabled])  }.map{ |k,v| v[:vm_ip] },
+            "ingress_traefik_externalIPs" => vms.select{ |k,v| v[:role] =~ /worker/ && to_boolean(v[:enabled]) }.map{ |k,v| v[:vm_ip] },
             "ingress_traefik_host" => "traefik.#{ingress_ip}.xip.io",
         }
         ansible.tags = "traefik"
