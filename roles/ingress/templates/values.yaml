@@ -225,7 +225,7 @@ service:
   loadBalancerSourceRanges: []
     # - 192.168.0.1/32
     # - 172.16.0.0/16
-  externalIPs: {{ ingress_traefik_externalIPs }}
+  externalIPs: {{ ingress_traefik_externalIPs | to_json }}
     # - 1.2.3.4
 
 ## Create HorizontalPodAutoscaler object.
