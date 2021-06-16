@@ -11,6 +11,7 @@ Este cluster foi criado com base no guia:
     * para usuários Ubuntu utilize o Virtual Box 6.0!
 2. Ter o Vagrant na última versão.
 3. Ter o plugin dotenv do Vagrant.  
+   * `vagrant plugin install dotenv --plugin-version 2.7.5`
 4. Ter o ansible na versão 2.8
 5. Ter o git na última versão.
 
