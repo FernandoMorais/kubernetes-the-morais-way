@@ -182,6 +182,10 @@ Vagrant.configure("2") do |config|
         ansible.groups = {
             "setup_node" => ["k8s-controller"],
         }
-        ansible.extra_vars = {}
+        ansible.extra_vars = {
+            "netdata_config_ingress_hosts" => [
+                "netdata.#{ingress_ip}.xip.io",
+            ],
+        }
     end
 end

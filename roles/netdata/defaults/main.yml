@@ -4,12 +4,12 @@ kubernetes_config_location: '/opt/kubernetes/config'
 kubeconfig_location: '{{ kubernetes_config_location }}/kubeconfig'
 kubeconfig_admin: '{{ kubeconfig_location }}/admin.kubeconfig'
 
-netdata_config:
-  service:
-    type: 'NodePort'
-  ingress:
-    enabled: false
-  database:
-    persistence: false
-  alarms:
-    persistence: false
+netdata_config_service_type: 'ClusterIP'
+netdata_config_ingress_enabled: true
+netdata_config_ingress_class: "traefik"
+netdata_config_ingress_acme: "false"
+netdata_config_ingress_path: /
+netdata_config_ingress_hosts:
+  - netdata.127.0.0.1.xip.io
+netdata_config_parent_database_persistence: false
+netdata_config_parent_alarms_persistence: false

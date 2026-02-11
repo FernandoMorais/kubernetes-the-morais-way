@@ -20,7 +20,7 @@
     src: files/netdata-helmchart
     dest: '{{ kubernetes_config_location }}/netdata'
 
-- name: Send netdata helm chart
+- name: Send netdata helm configuration
   template:
     src: templates/values.yaml
     dest: '{{ kubernetes_config_location }}/netdata/values.yaml'

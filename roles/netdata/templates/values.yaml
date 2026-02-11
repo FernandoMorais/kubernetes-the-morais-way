@@ -37,21 +37,20 @@ sysctlImage:
   resources: {}
 
 service:
-  type: {{ netdata_config.service.type }}
+  type: {{ netdata_config_service_type }}
   # type: ClusterIP
   port: 19999
   # Use a static loadBalancerIP. Only to be used with type LoadBalancer
   # loadBalancerIP: 10.0.1.69
 
 ingress:
-  enabled: {{ netdata_config.ingress.enabled }}
-  # enabled: true
+  enabled: {{ netdata_config_ingress_enabled }}
   annotations:
-    kubernetes.io/ingress.class: nginx
-    kubernetes.io/tls-acme: "true"
-  path: /
-  hosts:
-    - netdata.k8s.local
+    kubernetes.io/ingress.class: "{{ netdata_config_ingress_class }}"
+    kubernetes.io/tls-acme: "{{ netdata_config_ingress_acme }}"
+  path: {{ netdata_config_ingress_path }}
+  hosts: {{ netdata_config_ingress_hosts }}
+    # - netdata.k8s.local
 #  tls:
 #    - secretName: netdata-tls
 #      hosts:
@@ -92,14 +91,14 @@ parent:
   podAnnotations: {}
 
   database:
-    persistence: {{ netdata_config.database.persistence }}
+    persistence: {{ netdata_config_parent_database_persistence }}
     # persistence: true
     # Set '-' as the storageclass to get a volume from the default storage class.
     storageclass: "-"
     volumesize: 2Gi
 
   alarms:
-    persistence: {{ netdata_config.alarms.persistence }}
+    persistence: {{ netdata_config_parent_alarms_persistence }}
     # persistence: true
     # Set '-' as the storageclass to get a volume from the default storage class.
     storageclass: "-"
